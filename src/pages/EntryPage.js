@@ -44,13 +44,13 @@ const EntryPage = ({ navigation }) => {
                     <TextButton 
                         label='Save Parking Location'
                         onPress={() => {
-
+                            navigation.navigate('SaveParkingMainPage')
                         }}
                     />
                     <TextButton 
                         label='Find My Car'
                         onPress={() => {
-
+                            navigation.navigate('FindingCarMainPage')
                         }}
                     />
                 </SpacedColumn>

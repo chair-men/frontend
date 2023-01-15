@@ -6,8 +6,8 @@ import CText from "../../widgets/CText";
 import InputBox from "../../widgets/InputBox";
 import IconButton from "../../widgets/IconButton";
 
-const AvailableParkingMainPage = ({ navigation }) => {
-  const [postalCode, onChangePostalCode] = useState('');
+const MainPage = ({ navigation }) => {
+  const [licencePlate, onChangeLicencePlate] = useState('');
 
   return (
     <View
@@ -21,24 +21,18 @@ const AvailableParkingMainPage = ({ navigation }) => {
       }}
     >
       <SpacedColumn alignItems="stretch" width="100%" spacing={15}>
-        <CText>Enter a postal code:</CText>
+        <CText>Enter your licence plate:</CText>
         <InputBox
-          value={postalCode}
-          onChange={onChangePostalCode}
-          keyboardType={"numeric"}
-          maxLength={6}
+          value={licencePlate}
+          onChange={onChangeLicencePlate}
+          maxLength={8}
         />
+
         <IconButton 
-            label='Find nearby Carparks'
-            enabled={postalCode.length === 6 ? true : false}
+            label='Find your car'
+            enabled={licencePlate.length === 6 ? true : false}
             onPress={() => {
-              navigation.navigate('AvailableParkingResultPage', { postalCode: postalCode })
-            }}
-        />
-        <IconButton 
-            label='Use my location'
-            onPress={() => {
-              navigation.navigate('AvailableParkingResultPage', { postalCode: postalCode })
+              navigation.navigate('FindingCarResultPage', { licencePlate: licencePlate })
             }}
         />
       </SpacedColumn>
@@ -46,4 +40,4 @@ const AvailableParkingMainPage = ({ navigation }) => {
   );
 };
 
-export default AvailableParkingMainPage;
+export default MainPage;

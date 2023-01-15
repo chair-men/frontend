@@ -5,7 +5,7 @@ import CText from "./CText";
 import SpacedColumn from "./SpacedColumn";
 import SpacedRow from "./SpacedRow";
 
-const infoSpacing = 5;
+const spacing = 5;
 const mainFontSize = 24;
 const subFontSize = 14;
 
@@ -27,19 +27,19 @@ const CarparkDisplay = ({ name, warningMessage, info, detailedInfo }) => {
             borderTopRightRadius: 20,
           }}
         >
-          <SpacedColumn spacing={infoSpacing}>
+          <SpacedColumn spacing={spacing}>
             <CText styles={{ fontSize: mainFontSize, fontWeight: "bold" }}>
               {name}
             </CText>
-            <CText styles={{ fontSize: subFontSize, color: "red" }}>
+            {warningMessage && <CText styles={{ fontSize: subFontSize, color: "red" }}>
               {warningMessage}
-            </CText>
+            </CText>}
           </SpacedColumn>
 
           <SpacedRow spacing={20}>
             {info &&
               info.map((x, idx) => (
-                <SpacedColumn key={idx} spacing={infoSpacing}>
+                <SpacedColumn key={idx} spacing={spacing}>
                   <CText styles={{ fontSize: mainFontSize }}>{x.value}</CText>
                   <CText styles={{ fontSize: subFontSize }}>{x.subText}</CText>
                 </SpacedColumn>
@@ -50,7 +50,7 @@ const CarparkDisplay = ({ name, warningMessage, info, detailedInfo }) => {
     >
       <View
         style={{
-          backgroundColor: 'white',
+          backgroundColor: "white",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
@@ -60,19 +60,29 @@ const CarparkDisplay = ({ name, warningMessage, info, detailedInfo }) => {
           alignSelf: "center",
           borderBottomLeftRadius: 20,
           borderBottomRightRadius: 20,
-          // borderColor: 'black',
-          // borderWidth: 1,
         }}
       >
         {detailedInfo &&
           detailedInfo.map((info, idx) => (
             <SpacedColumn key={idx}>
               {Array.isArray(info) ? (
-                info.map((x, i) => {
-                  <CText key={i}>{x}</CText>;
-                })
+                <View
+                  style={{
+                    backgroundColor: "white",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    padding: spacing,
+                    width: "100%",
+                    alignSelf: "center",
+                  }}
+                >
+                  {info.map((x) => {
+                    return <CText styles={{ fontWeight: "bold" }}>{x}</CText>;
+                  })}
+                </View>
               ) : (
-                <CText>{info}</CText>
+                <CText styles={{ fontWeight: "bold", padding: spacing }}>{info}</CText>
               )}
             </SpacedColumn>
           ))}
