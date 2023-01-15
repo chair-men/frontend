@@ -1,11 +1,14 @@
 import { View } from "react-native";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import CColors from "../constants/CColors";
 import Accordion from "../widgets/Accordion";
 import SpacedColumn from "../widgets/SpacedColumn";
 import TextButton from "../widgets/TextButton";
 import IconButton from "../widgets/IconButton";
 
-const EntryPage = () => {
+const EntryPage = ({ navigation }) => {
     return <View
         style={{ 
             display: 'flex',
@@ -24,7 +27,7 @@ const EntryPage = () => {
                 label='Available Parking'
                 iconName='parking'
                 onPress={() => {
-
+                    navigation.navigate('AvailableParkingPage')
                 }}
             />
             <Accordion
