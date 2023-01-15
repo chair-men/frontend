@@ -1,11 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
+import { Platform, SafeAreaView, UIManager } from 'react-native';
+import EntryPage from './src/pages/EntryPage';
 
 export default function App() {
-  return (
-    <View className="flex-1 items-center justify-center bg-white">
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  if (Platform.OS === 'android') UIManager.setLayoutAnimationEnabledExperimental(true);
+
+  return <SafeAreaView className='flex-1'>
+    <EntryPage/>
+  </SafeAreaView>;
 }
