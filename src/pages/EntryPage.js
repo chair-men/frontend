@@ -62,6 +62,10 @@ const EntryPage = ({ navigation }) => {
 
                 }}
             />
+            <TextButton
+                label='Map'
+                onPress={() => navigation.navigate('MapPage')}
+            />
         </SpacedColumn>
     </View>
 };

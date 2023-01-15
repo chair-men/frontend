@@ -5,6 +5,7 @@ import EntryPage from "./src/pages/EntryPage";
 import AvailableParkingMainPage from "./src/pages/AvailableParking/MainPage";
 import AvailableParkingResultPage from "./src/pages/AvailableParking/ResultPage";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import MapPage from "./src/pages/MapPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ export default function App() {
                 <Stack.Screen name="EntryPage" component={EntryPage} />
                 <Stack.Screen name="AvailableParkingMainPage" component={AvailableParkingMainPage} />
                 <Stack.Screen name="AvailableParkingResultPage" component={AvailableParkingResultPage} />
+                <Stack.Screen name="MapPage" component={MapPage} />
               </Stack.Navigator>
             </GestureHandlerRootView>
           </SafeAreaView>
