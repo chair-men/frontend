@@ -3,4 +3,8 @@ export default CColors = {
     button: '#FDCDC5', //light red
     header: '#F0C6B7', //Desert Sand
     accordion: '#EEEEEE', //grey
+    carpark: {
+        available: 'rgba(45, 207, 33, 0.4)', //light green
+        taken: 'rgba(219, 85, 61, 0.4)' //light red
+    }
 };
