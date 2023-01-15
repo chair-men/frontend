@@ -27,7 +27,7 @@ const EntryPage = ({ navigation }) => {
                 label='Available Parking'
                 iconName='parking'
                 onPress={() => {
-                    navigation.navigate('AvailableParkingPage')
+                    navigation.navigate('AvailableParkingMainPage')
                 }}
             />
             <Accordion

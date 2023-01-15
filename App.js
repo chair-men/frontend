@@ -2,7 +2,8 @@ import { Platform, SafeAreaView, UIManager } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import EntryPage from "./src/pages/EntryPage";
-import AvailableParkingPage from "./src/pages/AvailableParkingPage";
+import AvailableParkingMainPage from "./src/pages/AvailableParking/MainPage";
+import AvailableParkingResultPage from "./src/pages/AvailableParking/ResultPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +16,8 @@ export default function App() {
       <SafeAreaView className="flex-1">
         <Stack.Navigator initialRouteName="EntryPage">
           <Stack.Screen name="EntryPage" component={EntryPage} />
-          <Stack.Screen name="AvailableParkingPage" component={AvailableParkingPage} />
+          <Stack.Screen name="AvailableParkingMainPage" component={AvailableParkingMainPage} />
+          <Stack.Screen name="AvailableParkingResultPage" component={AvailableParkingResultPage} />
         </Stack.Navigator>
       </SafeAreaView>
     </NavigationContainer>
