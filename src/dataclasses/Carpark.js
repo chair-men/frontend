@@ -5,6 +5,7 @@ export default class Carpark {
         this.id = "";
         this.name = "";
         this.coordinates = "";
+        this.renovation = false;
         this.levels = [];
     }
 
@@ -12,7 +13,8 @@ export default class Carpark {
         let cp = new Carpark();
         cp.id = json["id"] || "";
         cp.name = json["name"] || "";
-        cp.coordinates = json["coordinates"] || "";
+        cp.coordinates = json["coordinates"] || { lat: undefined, lng: undefined };
+        cp.renovation = json["renovation"] || false;
         
         const lvls = json["levels"];
         if (lvls) cp.levels = lvls.map((lvl_json, i) => Level.fromJSON(lvl_json));

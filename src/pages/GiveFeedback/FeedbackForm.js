@@ -108,6 +108,7 @@ const FeedbackForm = ({ route, navigation }) => {
         label={"Submit"}
         onPress={() => {
           postFeedback({
+            id: id,
             image: image,
             kerb: kerb,
             paint: paint,
