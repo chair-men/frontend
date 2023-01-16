@@ -8,7 +8,7 @@ import SpacedRow from "./SpacedRow";
 import TextButton from "./TextButton";
 
 const spacing = 5;
-const mainFontSize = 24;
+const mainFontSize = 22;
 const subFontSize = 14;
 
 const CarparkDisplay = ({ navigation, name, warningMessage, info, detailedInfo, nav }) => {
@@ -21,8 +21,8 @@ const CarparkDisplay = ({ navigation, name, warningMessage, info, detailedInfo, 
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            paddingHorizontal: 30,
-            paddingVertical: 20,
+            padding: 20,
+            marginTop: 20,
             width: "90%",
             alignSelf: "center",
             borderTopLeftRadius: 20,

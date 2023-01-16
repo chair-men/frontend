@@ -8,9 +8,11 @@ import IconButton from "../widgets/IconButton";
 import { testCP } from "../testdata/test";
 
 import { HDB_LOGO } from "../images";
+import CText from "../widgets/CText";
+import Title from "../widgets/Title";
 
 const EntryPage = ({ navigation }) => {
-  const win = Dimensions.get('window');
+  const win = Dimensions.get("window");
 
   return (
     <View
@@ -25,9 +27,10 @@ const EntryPage = ({ navigation }) => {
     >
       <Image
         source={HDB_LOGO}
-        style={{ alignSelf: "stretch", width: win.width*0.8 }}
-        resizeMode={'contain'}
+        style={{ alignSelf: "stretch", width: win.width * 0.8 }}
+        resizeMode={"contain"}
       />
+      <Title>Park My Ride</Title>
       <SpacedColumn alignItems="stretch" width="100%">
         <IconButton
           label="Available Parking"

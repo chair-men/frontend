@@ -11,7 +11,6 @@ const Header = ({ children }) => {
         alignItems: "center",
         backgroundColor: CColors.header,
         padding: 20,
-        marginBottom: 30,
         justifyContent: 'space-around'
       }}
     >
