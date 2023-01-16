@@ -1,25 +1,20 @@
 import { ActivityIndicator, View } from "react-native";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import SpacedColumn from "../../widgets/SpacedColumn";
-import Header from "../../widgets/Header";
-import CarparkDisplay from "../../widgets/CarparkDisplay";
 import InputBox from "../../widgets/InputBox";
 import { useEffect, useState } from "react";
 import CColors from "../../constants/CColors";
-import Button from "../../widgets/Button";
-import { calcDistance, getLocation } from "../../../utils/location";
+import { getLocation } from "../../../utils/location";
 import CText from "../../widgets/CText";
-import { coordsFromPostal, getCP } from "../../api";
-import TextButton from "../../widgets/TextButton";
 import HeaderLayout from "../../widgets/HeaderLayout";
 import SearchResults from "../../widgets/SearchResults";
+import { getCP } from "../../api";
 
 const ResultPage = ({ route, navigation }) => {
   const [ searchingCoords, setSearchingCoords ] = useState(true);
   const [ postalCodeVal, onChangePostalCodeVal] = useState("");
   const [ userPostalCode, setUserPostalCode ] = useState("");
   const [ userCoords, setUserCoords ] = useState();
-  const [ carparks, setCarparks ] = useState([]);
 
   useEffect(() => {
     getLocation().then((loc) => {
@@ -31,7 +26,7 @@ const ResultPage = ({ route, navigation }) => {
     });
   }, []);
 
-  const effect = (carpark, _, setDetailedInfo, setWarningMessage) => {
+  const effect = (carpark, _, setDetailedInfo, setWarningMessage, __) => {
     getCP(carpark.id)
       .then(({ data }) => {
         setDetailedInfo(Object.keys(data.status));

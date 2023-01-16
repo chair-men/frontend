@@ -78,9 +78,6 @@ const EntryPage = ({ navigation }) => {
             navigation.navigate("GiveFeedbackMainPage");
           }}
         />
-        <TextButton label="Map" onPress={() => navigation.navigate("MapPage", { carpark: {
-          id: "J65"
-        } })} />
       </SpacedColumn>
     </View>
   );

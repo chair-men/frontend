@@ -4,7 +4,7 @@ import CText from "../widgets/CText";
 import Header from "../widgets/Header";
 import Accordion from "../widgets/Accordion";
 import TextButton from "../widgets/TextButton";
-import { getFeedback } from "../api";
+import { getFeedback, setLicenseplate } from "../api";
 import { useEffect, useState } from "react";
 
 const LotInfo = ({ prop, value }) => {
@@ -25,8 +25,10 @@ const LotInfo = ({ prop, value }) => {
 const LotModal = ({ navigation, route }) => {
   const { lot, licensePlate } = route.params;
   const [feedbacks, setFeedbacks] = useState([]);
+  const [ errorMsg, setErrorMsg ] = useState();
+
   if (!licensePlate) useEffect(() => {
-    getFeedback("a05c0723-414c-4353-9306-273c2f083772")
+    getFeedback(lot.id)
       .then(({ data: data }) => {
         setFeedbacks(data);
     })
@@ -129,9 +131,19 @@ const LotModal = ({ navigation, route }) => {
             padding: 10,
           }}
           textStyle={{ fontSize: 20 }}
-          label={"Give Feedback"}
+          label={licensePlate ? `Mark this lot for '${licensePlate}'` : "Give Feedback"}
           onPress={() => {
-            navigation.navigate("FeedbackForm", { id: lot.lotName });
+            setErrorMsg();
+            if (licensePlate) {
+              setLicenseplate(lot.id, licensePlate)
+                .then((success) => {
+                  if (success) navigation.navigate("ConfirmSave", { licensePlate });
+                  else setErrorMsg('Failed to mark this lot.');
+                })
+                .catch((_) => setErrorMsg('Failed to mark this lot.'));
+              
+            }
+            else navigation.navigate("FeedbackForm", { id: lot.lotName });
           }}
         />
       </View>

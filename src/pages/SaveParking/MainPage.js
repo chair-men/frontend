@@ -31,7 +31,7 @@ const MainPage = ({ navigation }) => {
           <InputField
             text={"Enter your licence plate:"}
             value={licensePlate}
-            onChange={(newVal) => onChangeLicensePlate(newVal.toLocaleUpperCase())}
+            onChange={onChangeLicensePlate}
             maxLength={8}
           />
 
@@ -49,7 +49,7 @@ const MainPage = ({ navigation }) => {
             onPress={() => {
               navigation.navigate("SaveParkingResultPage", {
                 postalCode: postalCode,
-                licensePlate: licensePlate,
+                licensePlate: licensePlate.toLocaleUpperCase(),
               });
             }}
           />
@@ -58,7 +58,7 @@ const MainPage = ({ navigation }) => {
             onComplete={(coords) => {
               navigation.navigate("SaveParkingResultPage", {
                 coords: coords,
-                licensePlate: licensePlate
+                licensePlate: licensePlate.toLocaleUpperCase()
               });  
             }}
           />

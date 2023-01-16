@@ -15,6 +15,7 @@ import ThankYou from "./src/pages/GiveFeedback/ThankYou";
 import MapPage from "./src/pages/MapPage";
 import LocationViewer from "./src/pages/LocationViewer";
 import LotModal from "./src/pages/LotModal";
+import ConfirmSave from "./src/pages/SaveParking/ConfirmSave";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +44,7 @@ export default function App() {
                 <Stack.Screen name="FeedbackForm" component={FeedbackForm} />
                 <Stack.Screen name="ThankYou" component={ThankYou} />
                 <Stack.Screen name="MapPage" component={MapPage} />
+                <Stack.Screen name="ConfirmSave" component={ConfirmSave} />
                 <Stack.Screen name="LocationViewer" component={LocationViewer} />
                 <Stack.Screen name="LotModal" component={LotModal} options={{ presentation: 'transparentModal' }} />
               </Stack.Navigator>

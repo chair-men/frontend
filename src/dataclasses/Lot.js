@@ -12,10 +12,10 @@ export default class Lot {
 
     static fromJSON(json) {
         let lt = new Lot();
-
+        console.log(json);
         lt.id = json["id"] || "";
         lt.carparkId = json["carpark_id"] || "";
-        lt.levelId = json["level_id"] || "";
+        lt.levelId = json["level"] || "";
         lt.lotName = json["lotnumber"] || "";
         lt.coordinates = json["coords"] || [];
         lt.feedback = json["feedback"] || [];

@@ -14,9 +14,10 @@ const CPResult = ({ navigation, carpark, distance, effect }) => {
     const [ remInfo, setRemInfo ] = useState([]);
     const [ detailedInfo, setDetailedInfo ] = useState([]);
     const [ warningMessage, setWarningMessage ] = useState();
+    const [ licensePlate, setLicensePlate ] = useState();
 
     if (effect) useEffect(() => {
-        effect(carpark, setRemInfo, setDetailedInfo, setWarningMessage);
+        effect(carpark, setRemInfo, setDetailedInfo, setWarningMessage, setLicensePlate);
     }, [ carpark ]);
 
     return <CarparkDisplay
@@ -24,6 +25,7 @@ const CPResult = ({ navigation, carpark, distance, effect }) => {
         name={carpark.name}
         carpark={carpark}
         warningMessage={warningMessage}
+        licensePlate={licensePlate}
         info={[
         { value: distance.toFixed(2), subText: "km away" },
         {

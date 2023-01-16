@@ -8,7 +8,7 @@ const ResultPage = ({ navigation, route }) => {
   const { postalCode, coords } = route.params;
   if (!postalCode && !coords) throw "Need at least postal code or coordinates!";
 
-  const effect = (carpark, setRemInfo, setDetailedInfo, setWarningMessage) => {
+  const effect = (carpark, setRemInfo, setDetailedInfo, setWarningMessage, _) => {
     setRemInfo([{
       value: <ActivityIndicator />,
       subText: ''
