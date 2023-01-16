@@ -14,9 +14,9 @@ import TextButton from "../../widgets/TextButton";
 
 const ResultPage = ({ route, navigation }) => {
   const [postalCode, onChangePostalCode] = useState("");
-  const [ userCoords, setUserCoords ] = useState();
-  const [ searching, setSearching ] = useState(true);
-  const [ carparks, setCarparks ] = useState([]);
+  const [userCoords, setUserCoords] = useState();
+  const [searching, setSearching] = useState(true);
+  const [carparks, setCarparks] = useState([]);
 
   useEffect(() => {
     getLocation().then((loc) => {
@@ -24,31 +24,31 @@ const ResultPage = ({ route, navigation }) => {
       setUserCoords(`${latitude},${longitude}`);
       setSearching(false);
     }).catch((_) => {
-        setSearching(false);
+      setSearching(false);
     });
   }, []);
 
   useEffect(() => {
     const onSuccess = ({ data }) => {
-      setSearching(false);
       setCarparks(data);
-      // console.log(newCP)
+      setSearching(false);
     };
 
     const onFailure = (e) => {
       console.log(e);
-      setSearching(false);
       setCarparks([]);
+      setSearching(false);
     };
 
     if (userCoords) {
-          searchCPCoords(userCoords)
-            .then(onSuccess)
-            .catch(onFailure);
+      searchCPCoords(userCoords)
+        .then(onSuccess)
+        .catch(onFailure);
     }
-  }, [ userCoords ]);
 
-  const body = (carparks.length === 0) 
+  }, [userCoords]);
+
+  const body = (carparks.length === 0)
     ? <View
       style={{
         width: '100%',
@@ -59,7 +59,7 @@ const ResultPage = ({ route, navigation }) => {
       }}
     >
       {
-        searching 
+        searching
           ? <SpacedColumn>
             <ActivityIndicator size='large' />
             <CText>Searching for nearby carparks...</CText>
@@ -77,7 +77,7 @@ const ResultPage = ({ route, navigation }) => {
 
     : <SpacedColumn alignItems="stretch" width="100%" spacing={20}>
       {carparks.map((cp) => {
-        const [ lat, lng ] = userCoords.split(',')
+        const [lat, lng] = userCoords.split(',')
         console.log(userCoords)
         const distance = calcDistance(parseFloat(lat), parseFloat(lng), parseFloat(cp.coordinates.lat), parseFloat(cp.coordinates.lng)).toFixed(2);
 

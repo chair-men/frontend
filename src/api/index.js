@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'http://192.168.10.115:3000';
+const BASE_URL = 'http://192.168.10.114:3000';
 
 const get = (endpoint, params = undefined) => {
   return axios.get(BASE_URL + endpoint, {
@@ -64,7 +64,7 @@ const searchCPPostal = (postal) => {
 };
 
 const searchCPCoords = (coords) => {
-  return get("/carparks/search", { coords: `${coords.lat},${coords.lng}` });
+  return get("/carparks/search", { coords: coords });
 };
 
 export {
