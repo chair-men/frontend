@@ -47,7 +47,7 @@ const ResultPage = ({ route, navigation }) => {
         : <SpacedColumn
           alignItems='stretch'
         >
-          <CText>{errorMsg ? errorMsg : `Invalid License Plate!`}</CText>
+          <CText>{errorMsg ? errorMsg : `We couldn't find that license plate.`}</CText>
           <TextButton label={'Go back'} onPress={() => navigation.pop()} />
         </SpacedColumn>
     }

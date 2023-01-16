@@ -26,7 +26,7 @@ const MainPage = ({ navigation }) => {
         }}
       >
         <SpacedColumn alignItems="stretch" width="100%" spacing={15}>
-          <CText>Enter your licence plate:</CText>
+          <CText>Enter your license plate:</CText>
           <InputBox
             value={licensePlate}
             onChange={onChangeLicensePlate}
@@ -38,7 +38,7 @@ const MainPage = ({ navigation }) => {
             enabled={licensePlate.length <= 8}
             onPress={() => {
               navigation.navigate("FindingCarResultPage", {
-                licensePlate: licensePlate,
+                licensePlate: licensePlate.toLocaleUpperCase(),
               });
             }}
           />

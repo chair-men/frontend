@@ -1,6 +1,6 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, View } from "react-native";
+import { ActivityIndicator, FlatList, ScrollView, View } from "react-native";
 import { calcDistance } from "../../utils/location";
 import { coordsFromPostal, searchCPCoords, searchCPPostal } from "../api";
 import Carpark from "../dataclasses/Carpark";
@@ -8,7 +8,6 @@ import Button from "./Button";
 import CarparkDisplay from "./CarparkDisplay";
 import CText from "./CText";
 import SpacedColumn from "./SpacedColumn";
-import TextButton from "./TextButton";
 
 const CPResult = ({ navigation, carpark, distance, effect }) => {
     const [ remInfo, setRemInfo ] = useState([]);
@@ -17,7 +16,7 @@ const CPResult = ({ navigation, carpark, distance, effect }) => {
     const [ licensePlate, setLicensePlate ] = useState();
 
     if (effect) useEffect(() => {
-        effect(carpark, setRemInfo, setDetailedInfo, setWarningMessage, setLicensePlate );
+        effect( carpark, setRemInfo, setDetailedInfo, setWarningMessage, setLicensePlate );
     }, [ carpark ]);
     
     return <CarparkDisplay
@@ -58,6 +57,7 @@ const SearchResults = ({ navigation, postalCode, coords, effect }) => {
     const [ userCoords, setUserCoords ] = useState(coords);
     const [ errorMsg, setErrorMsg ] = useState();
     const [ carparks, setCarparks ] = useState([]);
+    const [ page, setPage ] = useState(1);
 
     useEffect(() => {
         setSearching(true);
@@ -124,19 +124,23 @@ const SearchResults = ({ navigation, postalCode, coords, effect }) => {
     
     carparks.sort((a, b) => getDistance(a.coordinates) - getDistance(b.coordinates));
 
-    return <ScrollView style={{ display: 'flex', flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}> 
-        <SpacedColumn alignItems="stretch" width="100%" spacing={20}>
-            {carparks.map((cp, _) => {
-                return <CPResult 
-                    navigation={navigation}
-                    key={cp.id}
-                    carpark={cp}
-                    distance={getDistance(cp.coordinates)}
-                    effect={effect}
-                />;
-            })}    
-        </SpacedColumn>
-    </ScrollView>;
+    return <FlatList
+        style={{ display: 'flex', flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}
+        data={carparks.slice(0, Math.min(10 * page, carparks.length))}
+        renderItem={({ item: cp }) => {
+            return <CPResult 
+            navigation={navigation}
+            carpark={cp}
+            distance={getDistance(cp.coordinates)}
+            effect={effect}
+        />}}
+        keyExtractor={(cp) => cp.id}
+        onEndReachedThreshold={0.2}
+        onEndReached={() => setPage(page + 1)}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+    />;
 };
 
 export default SearchResults;

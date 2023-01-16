@@ -9,27 +9,29 @@ import SpacedColumn from "../widgets/SpacedColumn";
 import Level from '../dataclasses/Level';
 import Title from "../widgets/Title";
 
-const LevelDisplay = ({ navigation, carparkId, levelId, setCenter, startLotId, licensePlate }) => {
-    const [ width, setWidth ] = useState();
-    const [ height, setHeight ] = useState();
+const LevelDisplay = ({ navigation, carparkId, levelId, setCenter, onLoad, startLotId, licensePlate }) => {
+    const [ width, setWidth ] = useState(1000);
+    const [ height, setHeight ] = useState(1000);
     const [ level, setLevel ] = useState();
     const [ loading, setLoading ] = useState(true);
 
     useEffect(() => {
         setLoading(true);
         setLevel();
+        setCenter({ x: width / 2, y: height / 2 });
 
         getCPLevel(carparkId, levelId)
             .then(({ data }) => {
                 Image.getSize(data.image_url, (width, height) => {
                     setWidth(width);
                     setHeight(height);
-                    setCenter({ x: width / 2, y: height / 2 });
+                setCenter({ x: width / 2, y: height / 2 });
                 }, console.log);
                 const lvl = Level.fromJSON(data);
                 setLevel(lvl);
                 setLoading(false);
-
+                onLoad();
+                
                 if (startLotId) navigation.navigate("LotModal", { lot: lvl.lots.find(lot => lot.id === startLotId)});
             })
             .catch((_) => {
@@ -40,11 +42,12 @@ const LevelDisplay = ({ navigation, carparkId, levelId, setCenter, startLotId, l
 
     if (!level) return <View
         style={{
+            display: 'flex',
             width: width,
             height: height,
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'white',
+            backgroundColor: CColors.backdrop,
             flexGrow: 1
         }}
     >
@@ -171,9 +174,9 @@ const MapPage = ({ navigation, route }) => {
                 levelId={levelId}
                 setCenter={(center) => {
                     setMapCenter(center);
-                    if (!initialCoords) setLocalCenter(center);
-                    else setLocalCenter(initialCoords);
+                    setLocalCenter(center);
                 }}
+                onLoad={() => { if (initialCoords) setLocalCenter(initialCoords); }}
                 startLotId={startLot ? startLot.id : undefined}
             />
         </PanWindow>
