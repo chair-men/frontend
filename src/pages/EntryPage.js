@@ -30,7 +30,7 @@ const EntryPage = ({ navigation }) => {
         style={{ alignSelf: "stretch", width: win.width * 0.8 }}
         resizeMode={"contain"}
       />
-      <Title>Park My Ride</Title>
+      <Title>Park Me</Title>
       <SpacedColumn alignItems="stretch" width="100%">
         <IconButton
           label="Available Parking"

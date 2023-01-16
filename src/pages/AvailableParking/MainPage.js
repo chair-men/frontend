@@ -10,6 +10,23 @@ import Header from "../../widgets/Header";
 
 const AvailableParkingMainPage = ({ navigation }) => {
   const [postalCode, onChangePostalCode] = useState("");
+  const [ errorMsg, setErrorMsg ] = useState();
+
+  const submitPostal = (postal) => {
+    onChangePostalCode('');
+    
+    const validPostalMsg = 'Please enter a valid postal code (only 6 digits).';
+
+    postal = postal.replace(/\D/g, '');
+    if (postal.length !== 6) {
+      setErrorMsg(validPostalMsg);
+      return;
+    }
+
+    navigation.navigate("AvailableParkingResultPage", {
+      postalCode: postalCode,
+    });
+  };
 
   return (
     <>
@@ -34,14 +51,11 @@ const AvailableParkingMainPage = ({ navigation }) => {
             keyboardType={"numeric"}
             maxLength={6}
           />
+          {errorMsg && <CText styles={{ color: 'red' }}>{errorMsg}</CText>}
           <IconButton
             label="Find nearby Carparks"
             enabled={postalCode.length === 6}
-            onPress={() => {
-              navigation.navigate("AvailableParkingResultPage", {
-                postalCode: postalCode,
-              });
-            }}
+            onPress={() => submitPostal(postalCode)}
           />
           <IconButton
             label="Use my location"
