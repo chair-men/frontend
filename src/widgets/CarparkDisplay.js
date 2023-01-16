@@ -11,7 +11,7 @@ const spacing = 5;
 const mainFontSize = 22;
 const subFontSize = 14;
 
-const CarparkDisplay = ({ navigation, nav, carpark, name, warningMessage, info, detailedInfo }) => {
+const CarparkDisplay = ({ navigation, carpark, name, warningMessage, info, detailedInfo }) => {
   return (
     <Accordion
       topComponent={
@@ -92,7 +92,7 @@ const CarparkDisplay = ({ navigation, nav, carpark, name, warningMessage, info, 
                     margin: 0,
                   }}
                   onPress={() => {
-                    navigation.navigate(nav, { carpark: carpark, startLevel: info[0] });
+                    navigation.navigate("MapPage", { carpark: carpark, startLevelId: info[0] });
                   }}
                 >
                     <CText styles={{ fontWeight: "bold" }}>
@@ -113,7 +113,7 @@ const CarparkDisplay = ({ navigation, nav, carpark, name, warningMessage, info, 
                   }}
                   textStyle={{ fontWeight: "bold", fontSize: 20 }}
                   onPress={() => {
-                    navigation.navigate(nav, { carpark: carpark, startLevel: info });
+                    navigation.navigate("MapPage", { carpark: carpark, startLevelId: info });
                   }}
                 />
               )}

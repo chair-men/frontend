@@ -5,7 +5,8 @@ export default class Lot {
         this.levelId = "";
         this.lotName = "";
         this.coordinates = [];
-        this.isOccupied = false;
+        this.feedback = [];
+        this.vacant = true;
         this.licensePlate = "";
     }
 
@@ -15,10 +16,12 @@ export default class Lot {
         lt.id = json["id"] || "";
         lt.carparkId = json["carpark_id"] || "";
         lt.levelId = json["level_id"] || "";
-        lt.lotName = json["lot_name"] || "";
-        lt.coordinates = json["coordinates"] || [];
-        lt.isOccupied = json["is_occupied"] || false;
-        lt.licensePlate = json["license_plate"] || "";
+        lt.lotName = json["lotnumber"] || "";
+        lt.coordinates = json["coords"] || [];
+        lt.feedback = json["feedback"] || [];
+        lt.vacant = json["vacant"];
+        if (lt.vacant === undefined) lt.vacant = true;
+        lt.licensePlate = json["platenumber"] || "";
 
         return lt;
     }

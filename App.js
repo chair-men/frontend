@@ -1,4 +1,4 @@
-import { Platform, SafeAreaView, UIManager } from "react-native";
+import { Platform, SafeAreaView, StatusBar, UIManager } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -24,7 +24,7 @@ export default function App() {
 
   return (
       <NavigationContainer>
-          <SafeAreaView className="flex-1">
+          <SafeAreaView className="flex-1" style={{ marginTop: StatusBar.currentHeight }}>
             <GestureHandlerRootView className="flex-1">
               <Stack.Navigator 
                 initialRouteName="EntryPage"
