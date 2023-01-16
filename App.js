@@ -14,6 +14,7 @@ import FeedbackForm from "./src/pages/GiveFeedback/FeedbackForm";
 import ThankYou from "./src/pages/GiveFeedback/ThankYou";
 import MapPage from "./src/pages/MapPage";
 import LocationViewer from "./src/pages/LocationViewer";
+import LotModal from "./src/pages/LotModal";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,7 +26,12 @@ export default function App() {
       <NavigationContainer>
           <SafeAreaView className="flex-1">
             <GestureHandlerRootView className="flex-1">
-              <Stack.Navigator initialRouteName="EntryPage">
+              <Stack.Navigator 
+                initialRouteName="EntryPage"
+                screenOptions={{
+                  headerShown: false
+                }}
+              >
                 <Stack.Screen name="EntryPage" component={EntryPage} />
                 <Stack.Screen name="AvailableParkingMainPage" component={AvailableParkingMainPage} />
                 <Stack.Screen name="AvailableParkingResultPage" component={AvailableParkingResultPage} />
@@ -38,6 +44,7 @@ export default function App() {
                 <Stack.Screen name="ThankYou" component={ThankYou} />
                 <Stack.Screen name="MapPage" component={MapPage} />
                 <Stack.Screen name="LocationViewer" component={LocationViewer} />
+                <Stack.Screen name="LotModal" component={LotModal} options={{ presentation: 'transparentModal' }} />
               </Stack.Navigator>
             </GestureHandlerRootView>
           </SafeAreaView>

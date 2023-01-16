@@ -78,7 +78,7 @@ const EntryPage = ({ navigation }) => {
             navigation.navigate("GiveFeedbackMainPage");
           }}
         />
-        <TextButton label="Map" onPress={() => navigation.navigate("Map")} />
+        <TextButton label="Map" onPress={() => navigation.navigate("MapPage", { carpark: testCP })} />
       </SpacedColumn>
     </View>
   );

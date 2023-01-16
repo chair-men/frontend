@@ -5,7 +5,7 @@ import CColors from "../constants/CColors";
 import PanWindow from "../widgets/PanWindow";
 import SpacedColumn from "../widgets/SpacedColumn";
 
-const LevelDisplay = ({ level, setCenter }) => {
+const LevelDisplay = ({ navigation, level, setCenter }) => {
     const [ width, setWidth ] = useState();
     const [ height, setHeight ] = useState();
 
@@ -37,12 +37,13 @@ const LevelDisplay = ({ level, setCenter }) => {
             const [ tx, ty ] = tl;
             const [ bx, by ] = br;
 
-            const content = <View 
+            const content = <TouchableWithoutFeedback 
                 style={{
                     width: bx - tx,
                     height: by - ty,
                     backgroundColor: lot.isOccupied ? CColors.carpark.taken : CColors.carpark.available
                 }}
+                onPress={() => navigation.navigate('LotModal', { lot: lot })}
             />;
             return <View
                 key={lot.id}
@@ -87,6 +88,7 @@ const MapPage = ({ navigation, route }) => {
         >
             <LevelDisplay 
                 key={level.id}
+                navigation={navigation}
                 level={level}
                 setCenter={(center) => {
                     setMapCenter(center);
