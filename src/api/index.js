@@ -1,0 +1,62 @@
+import axios from "axios";
+
+const axiosInstance = axios.create({
+    baseURL: 'localhost:3000/'
+});
+
+const get = (endpoint, params = undefined) => {
+    return axiosInstance.get(endpoint, {
+        params: params
+    });
+};
+
+const post = (endpoint, data) => {
+    return axiosInstance.post(endpoint, data);
+};
+
+const coords = (postal) => {
+    return get('/coords', { postal });
+};
+
+const getCP = (carparkId) => {
+    return get('/lots', { ppcode: carparkId });
+};
+
+const getCPLevel = (carparkId, levelId) => {
+    return get('/lots/level', {
+        ppcode: carparkId,
+        level: levelId
+    });
+};
+
+const getCPVacant = (carparkId) => {
+    return get('/lots/vacant', { ppcode: carparkId });
+}
+
+const getCPOccupied = (carparkId) => {
+    return get('/lots/occupied', { ppcode: carparkId });
+}
+
+const markOccupied = (lotId) => {
+    return post('/lots/occupy', { id: lotId });
+};
+
+const markVacant = (lotId) => {
+    return post('/lots/vacate', { id: lotId });
+}
+
+const allCPs = () => {
+    return get('/carparks');
+};
+
+const searchCP = (postal) => {
+    return get('/carparks/search', { postal });
+};
+
+export {
+    coords,
+    getCP, getCPLevel, getCPOccupied, getCPVacant,
+    markOccupied, markVacant,
+    allCPs,
+    searchCP
+}
