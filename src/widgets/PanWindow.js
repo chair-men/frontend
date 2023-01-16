@@ -6,19 +6,24 @@ export default class PanWindow extends Component {
     constructor(props) {
         super(props);
         this.child = props.children;
-        
         this.state = {
             xy: new Animated.ValueXY(),
             scale: new Animated.Value(1)
         }
 
+        this.baseXY = props.translation || { x: 0, y: 0 };
+
         this.pan = Gesture.Pan();
-        this.pan.onUpdate((e) => {
+        this.pan.onChange((e) => {
             const scale = this.state.scale.__getValue();
-            this.state.xy.setValue({ x: e.translationX / scale, y: e.translationY / scale });
+            const { x, y } = this.baseXY;
+            this.state.xy.setValue({ x: x + e.translationX / scale, y: y + e.translationY / scale });
         });
-        this.pan.onEnd((e) => {
-            this.state.xy.extractOffset();
+        this.pan.onEnd((e) => { 
+            const scale = this.state.scale.__getValue();
+            const { x, y } = this.baseXY;
+            this.baseXY = { x: x + e.translationX / scale, y: y + e.translationY / scale };
+            this.state.xy.setValue(this.baseXY);
         });
 
         this.pinch = Gesture.Pinch();
@@ -30,7 +35,15 @@ export default class PanWindow extends Component {
         });
     }
 
+    componentDidUpdate() {
+        if (!this.props.translation) return;
+        
+        this.baseXY = this.props.translation;
+        Animated.timing(this.state.xy, { useNativeDriver: false, timing: 500, toValue: this.baseXY}).start();
+    }
+
     render() {
+        
         return <GestureDetector gesture={Gesture.Simultaneous(this.pan, this.pinch)}>
             <Animated.View
                 style={{

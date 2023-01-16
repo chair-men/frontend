@@ -14,5 +14,7 @@ export default class Level {
         const lts = json["lots"];
 
         if (lts) lvl.lots = lts.map((lt_json, i) => Lot.fromJSON(lt_json));
+
+        return lvl;
     }
 }
