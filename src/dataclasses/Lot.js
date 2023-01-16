@@ -19,5 +19,7 @@ export default class Lot {
         lt.coordinates = json["coordinates"] || [];
         lt.isOccupied = json["is_occupied"] || false;
         lt.licensePlate = json["license_plate"] || "";
+
+        return lt;
     }
 }

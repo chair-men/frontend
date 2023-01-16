@@ -1,12 +1,11 @@
 import { View } from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import CColors from "../constants/CColors";
 import Accordion from "../widgets/Accordion";
 import SpacedColumn from "../widgets/SpacedColumn";
 import TextButton from "../widgets/TextButton";
 import IconButton from "../widgets/IconButton";
+import { testCP } from "../testdata/test";
 
 const EntryPage = ({ navigation }) => {
     return <View
@@ -64,7 +63,7 @@ const EntryPage = ({ navigation }) => {
             />
             <TextButton
                 label='Map'
-                onPress={() => navigation.navigate('MapPage')}
+                onPress={() => navigation.navigate('MapPage', { carpark: testCP })}
             />
         </SpacedColumn>
     </View>
