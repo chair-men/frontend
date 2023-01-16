@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 const ResultPage = ({ navigation, route }) => {
   const { postalCode } = route.params;
-  const [availableLots, setAvailableLots] = useState({});
+  const [ availableLots, setAvailableLots ] = useState({});
   const carparks = [testCP];
 
   const zip = (a, b) => a.map((k, i) => [k, b[i]]);
@@ -38,9 +38,10 @@ const ResultPage = ({ navigation, route }) => {
         </CText>
       </Header>
       <SpacedColumn alignItems="stretch" width="100%" spacing={20}>
-        {carparks.map((cp) => {
+        {carparks.map((cp, i) => {
           return (
             <CarparkDisplay
+              key={i}
               navigation={navigation}
               nav={"MapPage"}
               name={cp.name}
