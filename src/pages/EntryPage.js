@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, Image, Dimensions } from "react-native";
 
 import CColors from "../constants/CColors";
 import Accordion from "../widgets/Accordion";
@@ -7,18 +7,27 @@ import TextButton from "../widgets/TextButton";
 import IconButton from "../widgets/IconButton";
 import { testCP } from "../testdata/test";
 
+import { HDB_LOGO } from "../images";
+
 const EntryPage = ({ navigation }) => {
+  const win = Dimensions.get('window');
+
   return (
     <View
       style={{
         display: "flex",
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
+        // alignItems: "center",
+        // justifyContent: "center",
         padding: 50,
         backgroundColor: CColors.backdrop,
       }}
     >
+      <Image
+        source={HDB_LOGO}
+        style={{ alignSelf: "stretch", width: win.width*0.8 }}
+        resizeMode={'contain'}
+      />
       <SpacedColumn alignItems="stretch" width="100%">
         <IconButton
           label="Available Parking"
@@ -28,12 +37,7 @@ const EntryPage = ({ navigation }) => {
           }}
         />
         <Accordion
-          topComponent={
-            <IconButton
-              label="Parking Helper"
-              iconName="car"
-            />
-          }
+          topComponent={<IconButton label="Parking Helper" iconName="car" />}
           spacing={0}
         >
           <SpacedColumn width="100%" alignItems="stretch" spacing={0}>
@@ -51,8 +55,16 @@ const EntryPage = ({ navigation }) => {
               }}
             />
             <TextButton
-                label='Map'
-                onPress={() => navigation.navigate('MapPage', { carpark: testCP })}
+              label="Find My Car"
+              onPress={() => {
+                navigation.navigate("FindingCarMainPage");
+              }}
+              styles={{
+                backgroundColor: CColors.accordion,
+                borderRadius: 0,
+                borderBottomLeftRadius: 20,
+                borderBottomRightRadius: 20,
+              }}
             />
           </SpacedColumn>
         </Accordion>
@@ -63,10 +75,7 @@ const EntryPage = ({ navigation }) => {
             navigation.navigate("GiveFeedbackMainPage");
           }}
         />
-        <TextButton
-          label="Map"
-          onPress={() => navigation.navigate("MapPage")}
-        />
+        <TextButton label="Map" onPress={() => navigation.navigate("Map")} />
       </SpacedColumn>
     </View>
   );

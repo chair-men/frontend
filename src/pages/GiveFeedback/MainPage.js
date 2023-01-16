@@ -6,6 +6,8 @@ import CarparkDisplay from "../../widgets/CarparkDisplay";
 import InputBox from "../../widgets/InputBox";
 import { useEffect, useState } from "react";
 import CColors from "../../constants/CColors";
+import IconButton from "../../widgets/IconButton";
+import Button from "../../widgets/Button";
 
 const ResultPage = ({ route, navigation }) => {
   const [postalCode, onChangePostalCode] = useState("");
@@ -18,7 +20,11 @@ const ResultPage = ({ route, navigation }) => {
           value={postalCode}
           onChange={onChangePostalCode}
           placeholder={"Find other carparks"}
-          styles={{width: "90%", textAlign: 'left', backgroundColor: CColors.header}}
+          styles={{
+            width: "90%",
+            textAlign: "left",
+            backgroundColor: CColors.header,
+          }}
           keyboardType="numeric"
           maxLength={6}
         />
@@ -27,16 +33,46 @@ const ResultPage = ({ route, navigation }) => {
         <CarparkDisplay
           name="Blk 427"
           warningMessage="warning"
-          info={[{ value: 0.5, subText: "km away" }, { value: <FontAwesome5 name={"map"} size={20} />, subText: "Map" }]}
-          detailedInfo={['Level 3', 'Level 2', 'Level 1']}
+          info={[
+            { value: 0.5, subText: "km away" },
+            {
+              value: (
+                <Button
+                  onPress={() => {
+                    navigation.navigate("Map");
+                  }}
+                  styles={{ backgroundColor: CColors.backdrop }}
+                >
+                  <FontAwesome5 name={"map"} size={22} />
+                </Button>
+              ),
+              subText: "Map",
+            },
+          ]}
+          detailedInfo={["Level 3", "Level 2", "Level 1"]}
           nav={"FeedbackForm"}
           navigation={navigation}
         />
         <CarparkDisplay
           name="Blk 427"
           // warningMessage="warning"
-          info={[{ value: 0.5, subText: "km away" }, { value: <FontAwesome5 name={"map"} size={20} />, subText: "Map" }]}
-          detailedInfo={['Level 3', 'Level 2', 'Level 1']}
+          info={[
+            { value: 0.5, subText: "km away" },
+            {
+              value: (
+                <Button
+                  onPress={() => {
+                    navigation.navigate("Map");
+                  }}
+                  styles={{ backgroundColor: CColors.backdrop }}
+                >
+                  <FontAwesome5 name={"map"} size={22} />
+                </Button>
+              ),
+              subText: "Map",
+            },
+          ]}
+          detailedInfo={["Level 3", "Level 2", "Level 1"]}
           nav={"FeedbackForm"}
           navigation={navigation}
         />

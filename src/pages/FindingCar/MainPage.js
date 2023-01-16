@@ -30,7 +30,7 @@ const MainPage = ({ navigation }) => {
 
         <IconButton 
             label='Find your car'
-            enabled={licencePlate.length <= 8 ? true : false}
+            enabled={licencePlate.length <= 8}
             onPress={() => {
               navigation.navigate('FindingCarResultPage', { licencePlate: licencePlate })
             }}

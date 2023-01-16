@@ -3,9 +3,10 @@ import SpacedColumn from "../../widgets/SpacedColumn";
 import CText from "../../widgets/CText";
 import Header from "../../widgets/Header";
 import CarparkDisplay from "../../widgets/CarparkDisplay";
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import Button from "../../widgets/Button";
 
-const ResultPage = ({ route }) => {
+const ResultPage = ({ navigation, route }) => {
   const { postalCode } = route.params;
   return (
     <View>
@@ -22,9 +23,25 @@ const ResultPage = ({ route }) => {
           info={[
             { value: 0.5, subText: "km away" },
             { value: 5, subText: "lots" },
-            { value: <FontAwesome5 name={"map"} size={20} />, subText: "Map" },
+            {
+              value: (
+                <Button
+                  onPress={() => {
+                    navigation.navigate("Map");
+                  }}
+                  styles={{ backgroundColor: CColors.backdrop }}
+                >
+                  <FontAwesome5 name={"map"} size={22} />
+                </Button>
+              ),
+              subText: "Map",
+            },
           ]}
-          detailedInfo={[['Level 3', '3 lots'], ['Level 2', '1 lot'], ['Level 1', '1 lot']]}
+          detailedInfo={[
+            ["Level 3", "3 lots"],
+            ["Level 2", "1 lot"],
+            ["Level 1", "1 lot"],
+          ]}
           // detailedInfo={['Level 1', 'Level 2', 'Level 3']}
         />
         <CarparkDisplay
@@ -33,9 +50,25 @@ const ResultPage = ({ route }) => {
           info={[
             { value: 0.5, subText: "km away" },
             { value: 5, subText: "lots" },
-            { value: <FontAwesome5 name={"map"} size={20} />, subText: "Map" },
+            {
+              value: (
+                <Button
+                  onPress={() => {
+                    navigation.navigate("Map");
+                  }}
+                  styles={{ backgroundColor: CColors.backdrop }}
+                >
+                  <FontAwesome5 name={"map"} size={22} />
+                </Button>
+              ),
+              subText: "Map",
+            },
           ]}
-          detailedInfo={[['Level 3', '3 lots'], ['Level 2', '1 lot'], ['Level 1', '1 lot']]}
+          detailedInfo={[
+            ["Level 3", "3 lots"],
+            ["Level 2", "1 lot"],
+            ["Level 1", "1 lot"],
+          ]}
           // detailedInfo={['Level 1', 'Level 2', 'Level 3']}
         />
       </SpacedColumn>

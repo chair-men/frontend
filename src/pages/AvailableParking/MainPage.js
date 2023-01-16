@@ -30,7 +30,7 @@ const AvailableParkingMainPage = ({ navigation }) => {
         />
         <IconButton 
             label='Find nearby Carparks'
-            enabled={postalCode.length === 6 ? true : false}
+            enabled={postalCode.length === 6}
             onPress={() => {
               navigation.navigate('AvailableParkingResultPage', { postalCode: postalCode })
             }}

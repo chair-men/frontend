@@ -13,6 +13,7 @@ import GiveFeedbackMainPage from "./src/pages/GiveFeedback/MainPage";
 import FeedbackForm from "./src/pages/GiveFeedback/FeedbackForm";
 import ThankYou from "./src/pages/GiveFeedback/ThankYou";
 import MapPage from "./src/pages/MapPage";
+import Map from "./src/pages/Map";
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +37,7 @@ export default function App() {
                 <Stack.Screen name="FeedbackForm" component={FeedbackForm} />
                 <Stack.Screen name="ThankYou" component={ThankYou} />
                 <Stack.Screen name="MapPage" component={MapPage} />
+                <Stack.Screen name="Map" component={Map} />
               </Stack.Navigator>
             </GestureHandlerRootView>
           </SafeAreaView>

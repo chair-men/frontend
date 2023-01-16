@@ -1,0 +1,1 @@
+export const HDB_LOGO = require('./hdb_logo.png'); 
