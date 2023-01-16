@@ -18,6 +18,14 @@ const coords = (postal) => {
     return get('/coords', { postal });
 };
 
+const postFeedback = (feedback) => {
+    return post('/lots/feedback', { feedback })
+};
+
+const getFeedback = (id) => {
+    return get('/lots/feedback', { id: id })
+};
+
 const getCP = (carparkId) => {
     return get('/lots', { ppcode: carparkId });
 };
@@ -62,5 +70,6 @@ export {
     getCP, getCPLevel, getCPOccupied, getCPVacant,
     markOccupied, markVacant,
     allCPs,
-    searchCPPostal, searchCPCoords
+    searchCPPostal, searchCPCoords,
+    postFeedback, getFeedback
 }

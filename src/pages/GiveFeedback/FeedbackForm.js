@@ -10,6 +10,7 @@ import CColors from "../../constants/CColors";
 import SpacedRow from "../../widgets/SpacedRow";
 import TextButton from "../../widgets/TextButton";
 import InputBox from "../../widgets/InputBox";
+import { getFeedback, postFeedback } from "../../api";
 
 const Issue = ({ name, value, onValueChange }) => {
   return (
@@ -106,6 +107,14 @@ const FeedbackForm = ({ route, navigation }) => {
         }}
         label={"Submit"}
         onPress={() => {
+          postFeedback({
+            image: image,
+            kerb: kerb,
+            paint: paint,
+            other: otherText,
+            jobStatus: 'pending',
+            eta: 'TBC',
+          })
           navigation.navigate("ThankYou");
         }}
         enabled={image && (kerb || paint || (other && otherText))}

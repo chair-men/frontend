@@ -4,6 +4,8 @@ import CText from "../widgets/CText";
 import Header from "../widgets/Header";
 import Accordion from "../widgets/Accordion";
 import TextButton from "../widgets/TextButton";
+import { getFeedback } from "../api";
+import { useEffect, useState } from "react";
 
 const LotInfo = ({ prop, value }) => {
   return (
@@ -22,6 +24,31 @@ const LotInfo = ({ prop, value }) => {
 
 const LotModal = ({ navigation, route }) => {
   const { lot } = route.params;
+  const [feedbacks, setFeedbacks] = useState([
+    {
+      kerb: true,
+      paint: true,
+      other: "blah",
+      jobStatus: "Pending",
+      eta: "TBC",
+    },
+  ]);
+  useEffect(() => {
+    getFeedback(lot.lotName)
+      .then((f) => setFeedbacks(f))
+      .catch(() => {
+        console.log("Failed to get feedbacks");
+        setFeedbacks([
+          {
+            kerb: true,
+            paint: true,
+            other: "blah",
+            jobStatus: "Pending",
+            eta: "TBC",
+          },
+        ]);
+      });
+  }, []);
 
   return (
     <View
@@ -36,7 +63,7 @@ const LotModal = ({ navigation, route }) => {
       <View
         style={{
           width: "100%",
-        //   height: "100%",
+          //   height: "100%",
           borderRadius: 20,
           backgroundColor: CColors.backdrop,
         }}
@@ -78,13 +105,25 @@ const LotModal = ({ navigation, route }) => {
               View Past Feedback
             </CText>
           }
-          spacing={20}
         >
-          <CText>Feedback 1</CText>
-          <CText>Feedback 2</CText>
-          <CText>Feedback 3</CText>
-          <CText>Feedback 4</CText>
-          <CText>Feedback 5</CText>
+          {feedbacks.map((feedback, i) => {
+            return <CText
+              key={i}
+              styles={{
+                backgroundColor: CColors.accordion,
+                width: "80%",
+                alignSelf: "center",
+                borderRadius: 10,
+                marginTop: 20,
+                padding: 10,
+              }}
+            >
+              {`Issue(s): ${feedback.kerb && "kerb, "}${
+                feedback.paint && "paint, "
+              }${feedback.other}\n`}
+              {`Status: ${feedback.jobStatus}\nETA: ${feedback.eta}`}
+            </CText>;
+          })}
         </Accordion>
         <TextButton
           styles={{
@@ -94,10 +133,10 @@ const LotModal = ({ navigation, route }) => {
             marginVertical: 20,
             padding: 10,
           }}
-          textStyle={{ fontSize: 20, }}
+          textStyle={{ fontSize: 20 }}
           label={"Give Feedback"}
           onPress={() => {
-            navigation.navigate('FeedbackForm', { carpark: lot.lotName })
+            navigation.navigate("FeedbackForm", { carpark: lot.lotName });
           }}
         />
       </View>
