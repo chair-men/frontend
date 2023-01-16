@@ -1,85 +1,62 @@
-import { Component, useEffect, useState } from "react";
-import { Dimensions, Image, ImageBackground, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Dimensions, Image, PixelRatio, Text, View } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import CColors from "../constants/CColors";
 import PanWindow from "../widgets/PanWindow";
 import SpacedColumn from "../widgets/SpacedColumn";
 
-class LevelDisplay extends Component {
-    constructor(props) {
-        super(props);
+const LevelDisplay = ({ level, setCenter }) => {
+    const [ width, setWidth ] = useState();
+    const [ height, setHeight ] = useState();
 
-        this.state = {
-            level: props.level,
-            width: undefined,
-            height: undefined
-        };
+    useEffect(() => {
+        Image.getSize(level.imageURL, (width, height) => {
+            setWidth(width);
+            setHeight(height);
+            setCenter({ x: width / 2, y: height / 2 });
+        }, console.log);
+
+    }, [ level.imageURL ]);
+
+    if (!width || !height) {
+        return <Text>Loading</Text>;
     }
 
-    onLevelImage(url) {
-        Image.getSize(url, (w, h) => {
-            setWidth(w);
-            setHeight(h);
-    
-            const imgCenter = { x: w/2, y: h/2 };
-            this.props.setCenter(imgCenter);
-        });
-    }
+    return <View
+        style={{
+            width: width,
+            height: height
+        }}
+    >
+        <Image 
+            style={{ flex: 1, resizeMode: 'contain' }}
+            source={{ uri: level.imageURL }}
+        />
+        {level.lots.map((lot, i) => {
+            const [ tl, br ] = lot.coordinates;
+            const [ tx, ty ] = tl;
+            const [ bx, by ] = br;
 
-    componentDidMount() {
-        this.onLevelImage(this.props.level.imageURL);
-    }
-
-    componentDidUpdate(prevProps) {
-        console.log(prevProps, this.props);
-        this.onLevelImage(this.props.level.imageURL);
-        this.setState({ level: this.props.level });
-    }
-
-    render() {
-        const level = this.state.level;
-        if (!this.state.width || !this.state.height) {
-            return <Text>Loading</Text>;
-        }
-    
-        return <View
-            style={{
-                width: this.state.width,
-                height: this.state.height
-            }}
-        >
-            <Image 
-                style={{ flex: 1, resizeMode: 'contain' }}
-                source={{ uri: level.imageURL }}
-                alt={`Level {level.id}`}
-            />
-            {/*level.lots.map((lot, i) => {
-                console.log(lot.coordinates);
-                const [ tl, br ] = lot.coordinates;
-                const [ tx, ty ] = tl;
-                const [ bx, by ] = br;
-    
-                const content = <View 
-                    style={{
-                        width: 100,
-                        height: 100,
-                        backgroundColor: lot.isOccupied ? 'green' : 'red'
-                    }}
-                />;
-                return <View
-                    key={lot.id}
-                    style={{
-                        position: 'absolute',
-                        top: ty,
-                        left: tx
-                    }}
-                >
-                    {content}
-                </View>;
-            })*/}
-        </View>;
-    }
-}
+            const content = <View 
+                style={{
+                    width: bx - tx,
+                    height: by - ty,
+                    backgroundColor: lot.isOccupied ? CColors.carpark.taken : CColors.carpark.available
+                }}
+            />;
+            return <View
+                key={lot.id}
+                style={{
+                    position: 'absolute',
+                    top: ty,
+                    left: tx
+                }}
+            >
+                {content}
+            </View>;
+        })}
+    </View>;
+};
 
 const MapPage = ({ navigation, route }) => {
     const { carpark, startLot } = route.params;
@@ -104,7 +81,6 @@ const MapPage = ({ navigation, route }) => {
         setTranslation({ x: width / 2 - x, y: height/2 - y }); 
     };
 
-    console.log(level.id);
     return <View className="flex-1">
         <PanWindow
             translation={translation}

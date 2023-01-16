@@ -5,7 +5,6 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler";
 export default class PanWindow extends Component {
     constructor(props) {
         super(props);
-        this.child = props.children;
         this.state = {
             xy: new Animated.ValueXY(),
             scale: new Animated.Value(1)
@@ -39,11 +38,13 @@ export default class PanWindow extends Component {
         if (!this.props.translation) return;
         
         this.baseXY = this.props.translation;
-        Animated.timing(this.state.xy, { useNativeDriver: false, timing: 500, toValue: this.baseXY}).start();
+
+        const timing = 500; //500ms
+        Animated.timing(this.state.xy, { useNativeDriver: false, timing: timing, toValue: this.baseXY}).start();
+        Animated.timing(this.state.scale, { useNativeDriver: false, timing: timing, toValue: 1 }).start();
     }
 
     render() {
-        
         return <GestureDetector gesture={Gesture.Simultaneous(this.pan, this.pinch)}>
             <Animated.View
                 style={{
@@ -53,7 +54,7 @@ export default class PanWindow extends Component {
                     ]
                 }}
             >
-                {this.child}
+                {this.props.children}
             </Animated.View>
         </GestureDetector>;
     }
