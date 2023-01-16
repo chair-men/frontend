@@ -23,9 +23,9 @@ const LotInfo = ({ prop, value }) => {
 };
 
 const LotModal = ({ navigation, route }) => {
-  const { lot } = route.params;
+  const { lot, licensePlate } = route.params;
   const [feedbacks, setFeedbacks] = useState([]);
-  useEffect(() => {
+  if (!licensePlate) useEffect(() => {
     getFeedback("a05c0723-414c-4353-9306-273c2f083772")
       .then(({ data: data }) => {
         setFeedbacks(data);
@@ -54,9 +54,6 @@ const LotModal = ({ navigation, route }) => {
           backgroundColor: CColors.backdrop,
         }}
       >
-        <Header styles={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
-          <CText>Feedback Form</CText>
-        </Header>
         <View
           style={{
             backgroundColor: "white",
@@ -76,7 +73,7 @@ const LotModal = ({ navigation, route }) => {
           <LotInfo prop={`Level:`} value={`${lot.levelId}`} />
           <LotInfo prop={`Lot Name:`} value={`${lot.lotName}`} />
         </View>
-        <Accordion
+        {!licensePlate && <Accordion
           topComponent={
             <CText
               styles={{
@@ -122,7 +119,7 @@ const LotModal = ({ navigation, route }) => {
             >
               No previous feedback
             </CText>}
-        </Accordion>
+        </Accordion>}
         <TextButton
           styles={{
             width: "80%",

@@ -44,7 +44,7 @@ const ResultPage = ({ navigation, route }) => {
   return <HeaderLayout
     headerComponent={<CText>
       Showing results for{" "}
-      <CText styles={{ fontWeight: "bold" }}>{postalCode}</CText>
+      <CText styles={{ fontWeight: "bold" }}>{postalCode ? postalCode : 'your current location'}</CText>
     </CText>}
   >
     <SearchResults 

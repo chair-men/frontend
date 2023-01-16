@@ -11,7 +11,7 @@ export default class Level {
         let lvl = new Level();
         lvl.id = json["id"] || "";
         lvl.imageURL = json["image_url"] || "";
-        const lts = json["lots"];
+        const lts = json["data"];
 
         if (lts) lvl.lots = lts.map((lt_json, i) => Lot.fromJSON(lt_json));
 
