@@ -2,7 +2,6 @@ import { useState } from "react";
 import { View } from "react-native";
 import CColors from "../../constants/CColors";
 import SpacedColumn from "../../widgets/SpacedColumn";
-import Header from "../../widgets/Header";
 import InputField from "../../widgets/InputField";
 import TextButton from "../../widgets/TextButton";
 import CText from "../../widgets/CText";
@@ -30,7 +29,7 @@ const MainPage = ({ navigation }) => {
       >
         <SpacedColumn alignItems="stretch" width="100%" spacing={30}>
           <InputField
-            text={"Enter your licence plate:"}
+            text={"Enter your license plate:"}
             value={licensePlate}
             onChange={onChangeLicensePlate}
             maxLength={8}

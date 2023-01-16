@@ -1,5 +1,5 @@
 import MapView, { Marker } from "react-native-maps";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { useEffect, useState } from "react";
 import ClickableIcon from "../widgets/ClickableIcon";
 

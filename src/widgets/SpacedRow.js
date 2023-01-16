@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 
 const SpacedRow = ({ spacing, height, alignItems, children }) => {
     alignItems = alignItems || 'center';

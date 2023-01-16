@@ -63,11 +63,12 @@ const ResultPage = ({ route, navigation }) => {
         justifyContent: "center",
         backgroundColor: CColors.backdrop,
         height: "100%",
+        padding: 20
       }}
     >
-      <SpacedColumn alignItems="stretch" spacing={20}>
+      <SpacedColumn width='80%' alignItems="stretch" spacing={20}>
         <CText>Your car is at:</CText>
-        <CText styles={{ fontWeight: "bold", fontSize: 28, width: "80%", alignSelf: 'center' }}>
+        <CText styles={{ fontWeight: "bold", fontSize: 28, alignSelf: 'center' }}>
           {`${parkingLot?.ppname}\nLevel ${parkingLot?.level} Lot ${parkingLot?.lotnumber}`}
         </CText>
         <TextButton
@@ -75,7 +76,6 @@ const ResultPage = ({ route, navigation }) => {
           onPress={() => {
             navigation.navigate("MapPage", { carpark: carpark, startLot: parkingLot });
           }}
-          styles={{ width: "80%", alignSelf: 'center' }}
         />
       </SpacedColumn>
       <View

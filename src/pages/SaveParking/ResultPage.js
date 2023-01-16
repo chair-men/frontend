@@ -1,6 +1,5 @@
 import { ActivityIndicator } from "react-native";
 import CText from "../../widgets/CText";
-import { useState } from "react";
 import { getCPOccupied, getCPVacant } from "../../api";
 import HeaderLayout from "../../widgets/HeaderLayout";
 import SearchResults from "../../widgets/SearchResults";

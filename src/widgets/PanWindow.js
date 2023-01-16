@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Animated, View } from "react-native";
+import { Animated } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 export default class PanWindow extends Component {

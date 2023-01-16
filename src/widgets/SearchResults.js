@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, ScrollView, View } from "react-native";
+import { ActivityIndicator, FlatList, View } from "react-native";
 import { calcDistance } from "../../utils/location";
 import { coordsFromPostal, searchCPCoords, searchCPPostal } from "../api";
 import Carpark from "../dataclasses/Carpark";
-import Button from "./Button";
 import CarparkDisplay from "./CarparkDisplay";
 import ClickableIcon from "./ClickableIcon";
 import CText from "./CText";

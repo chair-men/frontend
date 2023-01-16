@@ -1,7 +1,6 @@
-import { View, FlatList, Text } from "react-native";
+import { View } from "react-native";
 import CColors from "../constants/CColors";
 import CText from "../widgets/CText";
-import Header from "../widgets/Header";
 import Accordion from "../widgets/Accordion";
 import TextButton from "../widgets/TextButton";
 import { getFeedback, setLicenseplate } from "../api";
@@ -49,7 +48,7 @@ const LotModal = ({ navigation, route }) => {
         backgroundColor: "rgba(209, 209, 209, 0.4)",
         alignItems: "center",
         justifyContent: "center",
-        padding: 40,
+        padding: 20,
         width: "100%",
         height: "100%",
       }}
