@@ -136,7 +136,7 @@ const LotModal = ({ navigation, route }) => {
           textStyle={{ fontSize: 20 }}
           label={"Give Feedback"}
           onPress={() => {
-            navigation.navigate("FeedbackForm", { carpark: lot.lotName });
+            navigation.navigate("FeedbackForm", { id: lot.lotName });
           }}
         />
       </View>

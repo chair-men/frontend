@@ -1,19 +1,21 @@
 import { ActivityIndicator, View } from "react-native";
 import SpacedColumn from "../../widgets/SpacedColumn";
 import CText from "../../widgets/CText";
+import TextButton from "../../widgets/TextButton";
 import Header from "../../widgets/Header";
 import CarparkDisplay from "../../widgets/CarparkDisplay";
 import { testCP } from "../../testdata/test";
 import Button from "../../widgets/Button";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useEffect, useState } from "react";
-import { coordsFromPostal } from "../../api";
+import { coordsFromPostal, searchCPPostal, searchCPCoords } from "../../api";
 import { calcDistance } from "../../../utils/location";
 
 const ResultPage = ({ navigation, route }) => {
   const { licencePlate, postalCode, coords } = route.params;
   const [ userCoords, setUserCoords ] = useState(coords);
   const [ carparks, setCarparks ] = useState([]);
+  const [ searching, setSearching ] = useState(true);
 
   useEffect(() => {
     const onSuccess = (newCP) => {

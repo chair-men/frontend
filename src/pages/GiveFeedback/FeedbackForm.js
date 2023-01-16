@@ -31,7 +31,7 @@ const Issue = ({ name, value, onValueChange }) => {
 };
 
 const FeedbackForm = ({ route, navigation }) => {
-  const { carpark } = route.params;
+  const { id } = route.params;
   const [image, setImage] = useState(null);
   const [kerb, setKerb] = useState(false);
   const [paint, setPaint] = useState(false);
@@ -108,6 +108,7 @@ const FeedbackForm = ({ route, navigation }) => {
         label={"Submit"}
         onPress={() => {
           postFeedback({
+            id: id,
             image: image,
             kerb: kerb,
             paint: paint,

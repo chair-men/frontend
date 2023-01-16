@@ -74,8 +74,8 @@ const CarparkDisplay = ({ navigation, nav, carpark, name, warningMessage, info, 
           borderBottomRightRadius: 20,
         }}
       >
-        {detailedInfo &&
-          detailedInfo.map((info, idx) => (
+        {Array.isArray(detailedInfo)
+          ? detailedInfo.map((info, idx) => (
             <SpacedColumn key={idx}>
               {Array.isArray(info) ? (
                 <TouchableOpacity
@@ -117,7 +117,9 @@ const CarparkDisplay = ({ navigation, nav, carpark, name, warningMessage, info, 
                 />
               )}
             </SpacedColumn>
-          ))}
+          ))
+          : detailedInfo
+        }
       </View>
     </Accordion>
   );
