@@ -61,6 +61,7 @@ const LevelDisplay = ({ navigation, level, setCenter }) => {
 
 const MapPage = ({ navigation, route }) => {
     const { carpark, startLot } = route.params;
+    console.log(carpark.levels)
     let startLevel = route.params.startLevel;
     
     if (startLevel === undefined) {

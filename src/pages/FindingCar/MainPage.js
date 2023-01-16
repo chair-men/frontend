@@ -8,7 +8,7 @@ import IconButton from "../../widgets/IconButton";
 import Header from "../../widgets/Header";
 
 const MainPage = ({ navigation }) => {
-  const [licencePlate, onChangeLicencePlate] = useState("");
+  const [licensePlate, onChangeLicensePlate] = useState("");
 
   return (
     <>
@@ -28,17 +28,17 @@ const MainPage = ({ navigation }) => {
         <SpacedColumn alignItems="stretch" width="100%" spacing={15}>
           <CText>Enter your licence plate:</CText>
           <InputBox
-            value={licencePlate}
-            onChange={onChangeLicencePlate}
+            value={licensePlate}
+            onChange={onChangeLicensePlate}
             maxLength={8}
           />
 
           <IconButton
             label="Find your car"
-            enabled={licencePlate.length <= 8}
+            enabled={licensePlate.length <= 8}
             onPress={() => {
               navigation.navigate("FindingCarResultPage", {
-                licencePlate: licencePlate,
+                licensePlate: licensePlate,
               });
             }}
           />

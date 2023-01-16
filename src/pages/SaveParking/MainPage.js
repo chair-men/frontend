@@ -9,7 +9,7 @@ import CText from "../../widgets/CText";
 import LocationButton from "../../widgets/LocationButton";
 
 const MainPage = ({ navigation }) => {
-  const [licencePlate, onChangeLicencePlate] = useState("");
+  const [licensePlate, onChangeLicensePlate] = useState("");
   const [postalCode, onChangePostalCode] = useState("");
 
   return (
@@ -30,8 +30,8 @@ const MainPage = ({ navigation }) => {
         <SpacedColumn alignItems="stretch" width="100%" spacing={30}>
           <InputField
             text={"Enter your licence plate:"}
-            value={licencePlate}
-            onChange={(newVal) => onChangeLicencePlate(newVal.toLocaleUpperCase())}
+            value={licensePlate}
+            onChange={(newVal) => onChangeLicensePlate(newVal.toLocaleUpperCase())}
             maxLength={8}
           />
 
@@ -45,20 +45,20 @@ const MainPage = ({ navigation }) => {
 
           <TextButton
             label="Find nearby Carparks"
-            enabled={licencePlate.length > 0 && licencePlate.length <= 8 && postalCode.length === 6}
+            enabled={licensePlate.length > 0 && licensePlate.length <= 8 && postalCode.length === 6}
             onPress={() => {
               navigation.navigate("SaveParkingResultPage", {
                 postalCode: postalCode,
-                licencePlate: licencePlate,
+                licensePlate: licensePlate,
               });
             }}
           />
           <LocationButton 
-            enabled={licencePlate.length > 0 && licencePlate.length <= 8}
+            enabled={licensePlate.length > 0 && licensePlate.length <= 8}
             onComplete={(coords) => {
               navigation.navigate("SaveParkingResultPage", {
                 coords: coords,
-                licencePlate: licencePlate
+                licensePlate: licensePlate
               });  
             }}
           />
