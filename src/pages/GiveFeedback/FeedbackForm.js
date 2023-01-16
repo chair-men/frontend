@@ -31,7 +31,7 @@ const Issue = ({ name, value, onValueChange }) => {
 };
 
 const FeedbackForm = ({ route, navigation }) => {
-  const { id } = route.params;
+  const { id, name } = route.params;
   const [image, setImage] = useState(null);
   const [kerb, setKerb] = useState(false);
   const [paint, setPaint] = useState(false);
@@ -52,7 +52,7 @@ const FeedbackForm = ({ route, navigation }) => {
   return (
     <ScrollView style={{ backgroundColor: CColors.accordion, height: "100%" }}>
       <Header>
-        <CText>Feedback for {id}</CText>
+        <CText>Feedback for Lot {name}</CText>
       </Header>
       <TouchableOpacity
         style={{
@@ -107,6 +107,7 @@ const FeedbackForm = ({ route, navigation }) => {
         }}
         label={"Submit"}
         onPress={() => {
+          console.log('id', id);
           postFeedback({
             id: id,
             image: image,
@@ -115,9 +116,9 @@ const FeedbackForm = ({ route, navigation }) => {
             other: otherText,
             jobStatus: 'pending',
             eta: 'TBC',
-            id: id,
-          })
-          navigation.navigate("ThankYou");
+          }).then( navigation.navigate("ThankYou"))
+          .catch(e => console.log(e))
+          
         }}
         enabled={image && (kerb || paint || (other && otherText))}
       />

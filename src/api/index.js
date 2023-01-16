@@ -17,7 +17,7 @@ const coordsFromPostal = (postal) => {
 };
 
 const postFeedback = (feedback) => {
-    return post("/lots/feedback", { feedback: feedback });
+    return post("/lots/feedback", feedback);
 };
 
 const getFeedback = (id) => {

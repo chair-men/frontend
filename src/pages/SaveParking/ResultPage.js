@@ -28,7 +28,6 @@ const ResultPage = ({ navigation, route }) => {
         }
       })
       .catch((e) => {
-        console.log(e);
         setWarningMessage('unable to determine carpark status.');
         setDetailedInfo();
       });

@@ -28,6 +28,8 @@ const LotModal = ({ navigation, route }) => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [ errorMsg, setErrorMsg ] = useState();
 
+  console.log(lot)
+
   if (!licensePlate) useEffect(() => {
     getFeedback(lot.id)
       .then(({ data: data }) => {
@@ -97,10 +99,12 @@ const LotModal = ({ navigation, route }) => {
                     styles={{
                       backgroundColor: CColors.accordion,
                       borderRadius: 10,
+                      marginTop: 10,
+                      width: "100%"
                     }}
                   >
-                    {`Issue(s): ${feedback.kerb && "kerb, "}${
-                      feedback.paint && "paint, "
+                    {`Issue(s): ${feedback.kerb && "Kerb, "}${
+                      feedback.paint && "Paint, "
                     }${feedback.other}\n`}
                     {`Status: ${feedback.jobStatus}\nETA: ${feedback.eta}`}
                   </CText>;})}
@@ -137,7 +141,7 @@ const LotModal = ({ navigation, route }) => {
                   .catch((_) => setErrorMsg('Failed to mark this lot.'));
                 
               }
-              else navigation.navigate("FeedbackForm", { id: lot.lotName });
+              else navigation.navigate("FeedbackForm", { id: lot.id, name: lot.lotName });
             }}
           />
           {errorMsg && <CText styles={{ color: 'red' }}>{errorMsg}</CText>}

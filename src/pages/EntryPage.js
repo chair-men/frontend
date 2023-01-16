@@ -31,7 +31,7 @@ const EntryPage = ({ navigation }) => {
         resizeMode={"contain"}
       />
       <Title>Park Me</Title>
-      <SpacedColumn alignItems="stretch" width="100%">
+      <SpacedColumn alignItems="stretch" width="100%" spacing={15}>
         <IconButton
           label="Available Parking"
           iconName="parking"
@@ -72,7 +72,7 @@ const EntryPage = ({ navigation }) => {
           </SpacedColumn>
         </Accordion>
         <IconButton
-          label="View Feedback"
+          label="Provide Feedback"
           iconName="comment-dots"
           onPress={() => {
             navigation.navigate("GiveFeedbackMainPage");
