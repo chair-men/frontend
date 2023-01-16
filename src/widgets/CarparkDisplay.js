@@ -21,6 +21,7 @@ const CarparkDisplay = ({ navigation, nav, carpark, name, warningMessage, info, 
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
+            alignItems:'center',
             padding: 20,
             marginTop: 20,
             width: "90%",
@@ -31,7 +32,7 @@ const CarparkDisplay = ({ navigation, nav, carpark, name, warningMessage, info, 
         >
           <SpacedColumn spacing={spacing}>
             <CText styles={{ fontSize: mainFontSize, fontWeight: "bold" }}>
-              {name}
+              {name.slice(0,12)}...
             </CText>
             {warningMessage && (
               <CText styles={{ fontSize: subFontSize, color: "red" }}>

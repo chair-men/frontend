@@ -24,29 +24,15 @@ const LotInfo = ({ prop, value }) => {
 
 const LotModal = ({ navigation, route }) => {
   const { lot } = route.params;
-  const [feedbacks, setFeedbacks] = useState([
-    {
-      kerb: true,
-      paint: true,
-      other: "blah",
-      jobStatus: "Pending",
-      eta: "TBC",
-    },
-  ]);
+  const [feedbacks, setFeedbacks] = useState([]);
   useEffect(() => {
-    getFeedback(lot.lotName)
-      .then((f) => setFeedbacks(f))
-      .catch(() => {
+    getFeedback("a05c0723-414c-4353-9306-273c2f083772")
+      .then(({ data: data }) => {
+        setFeedbacks(data);
+    })
+      .catch((e) => {
+        console.log(e)
         console.log("Failed to get feedbacks");
-        setFeedbacks([
-          {
-            kerb: true,
-            paint: true,
-            other: "blah",
-            jobStatus: "Pending",
-            eta: "TBC",
-          },
-        ]);
       });
   }, []);
 
@@ -106,7 +92,7 @@ const LotModal = ({ navigation, route }) => {
             </CText>
           }
         >
-          {feedbacks.map((feedback, i) => {
+          {feedbacks.length > 0 && feedbacks.map((feedback, i) => {
             return <CText
               key={i}
               styles={{
@@ -124,6 +110,18 @@ const LotModal = ({ navigation, route }) => {
               {`Status: ${feedback.jobStatus}\nETA: ${feedback.eta}`}
             </CText>;
           })}
+          {feedbacks.length === 0 && <CText
+              styles={{
+                backgroundColor: CColors.accordion,
+                width: "80%",
+                alignSelf: "center",
+                borderRadius: 10,
+                marginTop: 20,
+                padding: 10,
+              }}
+            >
+              No previous feedback
+            </CText>}
         </Accordion>
         <TextButton
           styles={{
@@ -136,7 +134,7 @@ const LotModal = ({ navigation, route }) => {
           textStyle={{ fontSize: 20 }}
           label={"Give Feedback"}
           onPress={() => {
-            navigation.navigate("FeedbackForm", { carpark: lot.lotName });
+            navigation.navigate("FeedbackForm", { id: lot.lotName });
           }}
         />
       </View>

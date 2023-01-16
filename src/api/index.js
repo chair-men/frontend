@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: 'localhost:3000/'
+    baseURL: 'http://192.168.10.114:3000/'
 });
 
 const get = (endpoint, params = undefined) => {
@@ -23,7 +23,7 @@ const postFeedback = (feedback) => {
 };
 
 const getFeedback = (id) => {
-    return get('/lots/feedback', { id: id })
+    return get('/lots/retrievefeedback', { id: id })
 };
 
 const getCP = (carparkId) => {

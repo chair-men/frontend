@@ -9,7 +9,7 @@ import CColors from "../../constants/CColors";
 import Button from "../../widgets/Button";
 import { calcDistance, getLocation } from "../../../utils/location";
 import CText from "../../widgets/CText";
-import { coordsFromPostal } from "../../api";
+import { coordsFromPostal, searchCPCoords } from "../../api";
 import TextButton from "../../widgets/TextButton";
 
 const ResultPage = ({ route, navigation }) => {
@@ -21,7 +21,7 @@ const ResultPage = ({ route, navigation }) => {
   useEffect(() => {
     getLocation().then((loc) => {
       const { latitude, longitude } = loc.coords;
-      setUserCoords({ lat: latitude, lng: longitude });
+      setUserCoords(`${latitude},${longitude}`);
       setSearching(false);
     }).catch((_) => {
         setSearching(false);
@@ -29,9 +29,10 @@ const ResultPage = ({ route, navigation }) => {
   }, []);
 
   useEffect(() => {
-    const onSuccess = (newCP) => {
+    const onSuccess = ({ data }) => {
       setSearching(false);
-      setCarparks(newCP);
+      setCarparks(data);
+      // console.log(newCP)
     };
 
     const onFailure = (e) => {
@@ -40,20 +41,14 @@ const ResultPage = ({ route, navigation }) => {
       setCarparks([]);
     };
 
-    if (postalCode !== undefined) {
-      coordsFromPostal(postalCode)
-        .then((coords) => {
-          setUserCoords(coords);
-
-          searchCPPostal(postalCode)
+    if (userCoords) {
+          searchCPCoords(userCoords)
             .then(onSuccess)
             .catch(onFailure);
-        })
-        .catch(onFailure);
     }
-  }, [ postalCode ]);
+  }, [ userCoords ]);
 
-  const body = (carparks.length < 1) 
+  const body = (carparks.length === 0) 
     ? <View
       style={{
         width: '100%',
@@ -82,7 +77,9 @@ const ResultPage = ({ route, navigation }) => {
 
     : <SpacedColumn alignItems="stretch" width="100%" spacing={20}>
       {carparks.map((cp) => {
-        const distance = calcDistance(userCoords.lat, userCoords.lng, cp.coordinates.lat, cp.coordinates.lng).toFixed(2);
+        const [ lat, lng ] = userCoords.split(',')
+        console.log(userCoords)
+        const distance = calcDistance(parseFloat(lat), parseFloat(lng), parseFloat(cp.coordinates.lat), parseFloat(cp.coordinates.lng)).toFixed(2);
 
         return (
           <CarparkDisplay
@@ -114,7 +111,7 @@ const ResultPage = ({ route, navigation }) => {
               },
             ]}
             detailedInfo={
-              cp.levels.map(lvl => lvl.id)
+              ['1A', '2A', '1B', '2B']
             }
           />
         );

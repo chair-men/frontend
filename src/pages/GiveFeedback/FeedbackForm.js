@@ -31,7 +31,7 @@ const Issue = ({ name, value, onValueChange }) => {
 };
 
 const FeedbackForm = ({ route, navigation }) => {
-  const { carpark } = route.params;
+  const { id } = route.params;
   const [image, setImage] = useState(null);
   const [kerb, setKerb] = useState(false);
   const [paint, setPaint] = useState(false);
@@ -52,7 +52,7 @@ const FeedbackForm = ({ route, navigation }) => {
   return (
     <ScrollView style={{ backgroundColor: CColors.accordion, height: "100%" }}>
       <Header>
-        <CText>Feedback for {carpark}</CText>
+        <CText>Feedback for {id}</CText>
       </Header>
       <TouchableOpacity
         style={{
@@ -114,6 +114,7 @@ const FeedbackForm = ({ route, navigation }) => {
             other: otherText,
             jobStatus: 'pending',
             eta: 'TBC',
+            id: id,
           })
           navigation.navigate("ThankYou");
         }}
