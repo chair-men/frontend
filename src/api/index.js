@@ -49,8 +49,12 @@ const allCPs = () => {
     return get('/carparks');
 };
 
-const searchCP = (postal) => {
+const searchCPPostal = (postal) => {
     return get('/carparks/search', { postal });
+};
+
+const searchCPCoords = (coords) => {
+    return get('/carparks/search', { coords });
 };
 
 export {
@@ -58,5 +62,5 @@ export {
     getCP, getCPLevel, getCPOccupied, getCPVacant,
     markOccupied, markVacant,
     allCPs,
-    searchCP
+    searchCPPostal, searchCPCoords
 }
