@@ -17,9 +17,9 @@ const CPResult = ({ navigation, carpark, distance, effect }) => {
     const [ licensePlate, setLicensePlate ] = useState();
 
     if (effect) useEffect(() => {
-        effect(carpark, setRemInfo, setDetailedInfo, setWarningMessage, setLicensePlate);
+        effect(carpark, setRemInfo, setDetailedInfo, setWarningMessage, setLicensePlate );
     }, [ carpark ]);
-
+    
     return <CarparkDisplay
         navigation={navigation}
         name={carpark.name}

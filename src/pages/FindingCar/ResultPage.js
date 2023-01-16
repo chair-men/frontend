@@ -12,16 +12,15 @@ const ResultPage = ({ route, navigation }) => {
   const { licensePlate } = route.params;
   const [searching, setSearching] = useState(true);
   const [errorMsg, setErrorMsg] = useState();
-  const [parkingLot, setParkingLot] = useState({});
+  const [parkingLot, setParkingLot] = useState();
   const [carpark, setCarpark] = useState({});
 
   useEffect(() => {
     searchCPLot(licensePlate)
       .then(({ data }) => {
         setParkingLot(data);
-        console.log(data)
         getCP(data.ppcode)
-          .then(({ data }) => { console.log(data); setCarpark(data) })
+          .then(({ data }) => setCarpark(data))
           .catch((e) => console.log(e))
         setSearching(false);
       })
@@ -31,7 +30,7 @@ const ResultPage = ({ route, navigation }) => {
       })
   }, [])
 
-  if (parkingLot.length === 0) return <View
+  if (!parkingLot) return <View
     style={{
       flexGrow: 1,
       alignItems: 'center',
@@ -43,7 +42,7 @@ const ResultPage = ({ route, navigation }) => {
       searching
         ? <SpacedColumn>
           <ActivityIndicator size='large' />
-          <CText>Searching for nearby carparks...</CText>
+          <CText>Searching for '{licensePlate}'...</CText>
         </SpacedColumn>
         : <SpacedColumn
           alignItems='stretch'
@@ -58,7 +57,7 @@ const ResultPage = ({ route, navigation }) => {
     <View
       style={{
         display: "flex",
-        flex: 1,
+        flexGrow: 1,
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: CColors.backdrop,

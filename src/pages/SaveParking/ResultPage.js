@@ -1,13 +1,12 @@
 import { ActivityIndicator } from "react-native";
 import CText from "../../widgets/CText";
 import { useState } from "react";
-import { getCPOccupied } from "../../api";
+import { getCPOccupied, getCPVacant } from "../../api";
 import HeaderLayout from "../../widgets/HeaderLayout";
 import SearchResults from "../../widgets/SearchResults";
 
 const ResultPage = ({ navigation, route }) => {
-  const { licencePlate, postalCode, coords } = route.params;
-  const [ carparks, setCarparks ] = useState([]);
+  const { licensePlate, postalCode, coords } = route.params;
 
   const effect = (carpark, _, setDetailedInfo, setWarningMessage, setLicensePlate) => {
     setDetailedInfo(<ActivityIndicator />);
@@ -17,11 +16,11 @@ const ResultPage = ({ navigation, route }) => {
         const lvlInfo = [];
         if (data.status) Object.entries(data.status)
           .forEach(([lvlId, val], i) => {
-            if (val.occupied > 0) lvlInfo.push([ lvlId ]);
+            if (val.occupied > 0) lvlInfo.push(lvlId);
           });
         
         if (lvlInfo.length > 0) {
-          setLicensePlate(licencePlate);
+          setLicensePlate(licensePlate);
           setDetailedInfo(lvlInfo);
         } else {
           setWarningMessage('there are no vehicles here.');

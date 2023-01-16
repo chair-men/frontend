@@ -44,7 +44,8 @@ const LevelDisplay = ({ navigation, carparkId, levelId, setCenter, startLotId, l
             height: height,
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'white'
+            backgroundColor: 'white',
+            flexGrow: 1
         }}
     >
         {
@@ -76,7 +77,11 @@ const LevelDisplay = ({ navigation, carparkId, levelId, setCenter, startLotId, l
                 style={{
                     width: bx - tx,
                     height: by - ty,
-                    backgroundColor: lot.vacant ? CColors.carpark.available : CColors.carpark.taken
+                    backgroundColor: lot.vacant 
+                        ? CColors.carpark.available 
+                        : lot.id === startLotId
+                        ? CColors.carpark.highlight
+                        : CColors.carpark.taken
                 }}
                 onPress={() => navigation.navigate('LotModal', { lot: lot, licensePlate: licensePlate })}
             />;
@@ -96,9 +101,8 @@ const LevelDisplay = ({ navigation, carparkId, levelId, setCenter, startLotId, l
 
 const MapPage = ({ navigation, route }) => {
     const { carpark, startLot, licensePlate } = route.params;
-    let startLevelId = route.params.startLevel;
-    let startCoords;
-    
+    let startLevelId = route.params.startLevelId;
+
     const [ loading, setLoading ] = useState(true);
     const [ allLevelIds, setAllLevelIds ] = useState([]);
     const [ levelId, setLevelId ] = useState();
@@ -116,7 +120,6 @@ const MapPage = ({ navigation, route }) => {
                     // startCoords = carpark.levels[startLevelId][startLot]
                 }
                 if (startLevelId === undefined) {
-                    console.log(allLvls);
                     startLevelId = allLvls[0];
                 }
                 
@@ -171,7 +174,7 @@ const MapPage = ({ navigation, route }) => {
                     if (!initialCoords) setLocalCenter(center);
                     else setLocalCenter(initialCoords);
                 }}
-                startLotId={startLot.id}
+                startLotId={startLot ? startLot.id : undefined}
             />
         </PanWindow>
         <View

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'http://192.168.10.115:3000';
+const BASE_URL = 'https://parkme.nghochi.xyz';
 
 const get = (endpoint, params = undefined) => {
     return axios.get(BASE_URL + endpoint, {
@@ -51,7 +51,7 @@ const markVacant = (lotId) => {
     return post("/lots/vacate", { id: lotId });
 };
 
-const setLicenseplate = ({ id, licenseplate }) => {
+const setLicenseplate = (id, licenseplate) => {
     return post("/lots/setlicenseplate", { id: id, platenumber: licenseplate });
 };
 

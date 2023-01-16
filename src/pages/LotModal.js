@@ -6,6 +6,7 @@ import Accordion from "../widgets/Accordion";
 import TextButton from "../widgets/TextButton";
 import { getFeedback, setLicenseplate } from "../api";
 import { useEffect, useState } from "react";
+import SpacedColumn from "../widgets/SpacedColumn";
 
 const LotInfo = ({ prop, value }) => {
   return (
@@ -53,99 +54,94 @@ const LotModal = ({ navigation, route }) => {
           width: "100%",
           //   height: "100%",
           borderRadius: 20,
+          padding: 20,
           backgroundColor: CColors.backdrop,
         }}
       >
-        <View
-          style={{
-            backgroundColor: "white",
-            width: "90%",
-            alignSelf: "center",
-            margin: 10,
-            borderRadius: 20,
-            padding: 10,
-          }}
-        >
-          <CText
-            styles={{ fontWeight: "bold", marginBottom: 30, fontSize: 30 }}
+        <SpacedColumn width='100%' alignItems='stretch'>
+          <View
+            style={{
+              backgroundColor: "white",
+              borderRadius: 20,
+              padding: 20,
+            }}
           >
-            Lot Information
-          </CText>
-          <LotInfo prop={`Carpark Location:`} value={`${lot.carparkId}`} />
-          <LotInfo prop={`Level:`} value={`${lot.levelId}`} />
-          <LotInfo prop={`Lot Name:`} value={`${lot.lotName}`} />
-        </View>
-        {!licensePlate && <Accordion
-          topComponent={
             <CText
-              styles={{
-                backgroundColor: CColors.button,
-                width: "80%",
-                alignSelf: "center",
-                borderRadius: 10,
-                marginTop: 20,
-                padding: 10,
-              }}
+              styles={{ fontWeight: "bold", marginBottom: 30, fontSize: 30 }}
             >
-              View Past Feedback
+              Lot Information
             </CText>
-          }
-        >
-          {feedbacks.length > 0 && feedbacks.map((feedback, i) => {
-            return <CText
-              key={i}
-              styles={{
-                backgroundColor: CColors.accordion,
-                width: "80%",
-                alignSelf: "center",
-                borderRadius: 10,
-                marginTop: 20,
-                padding: 10,
-              }}
-            >
-              {`Issue(s): ${feedback.kerb && "kerb, "}${
-                feedback.paint && "paint, "
-              }${feedback.other}\n`}
-              {`Status: ${feedback.jobStatus}\nETA: ${feedback.eta}`}
-            </CText>;
-          })}
-          {feedbacks.length === 0 && <CText
-              styles={{
-                backgroundColor: CColors.accordion,
-                width: "80%",
-                alignSelf: "center",
-                borderRadius: 10,
-                marginTop: 20,
-                padding: 10,
-              }}
-            >
-              No previous feedback
-            </CText>}
-        </Accordion>}
-        <TextButton
-          styles={{
-            width: "80%",
-            alignSelf: "center",
-            borderRadius: 10,
-            marginVertical: 20,
-            padding: 10,
-          }}
-          textStyle={{ fontSize: 20 }}
-          label={licensePlate ? `Mark this lot for '${licensePlate}'` : "Give Feedback"}
-          onPress={() => {
-            setErrorMsg();
-            if (licensePlate) {
-              setLicenseplate(lot.id, licensePlate)
-                .then((success) => {
-                  if (success) navigation.navigate("ConfirmSave", { licensePlate });
-                  else setErrorMsg('Failed to mark this lot.');
-                })
-                .catch((_) => setErrorMsg('Failed to mark this lot.'));
-              
+            <LotInfo prop={`Carpark Location:`} value={`${lot.carparkId}`} />
+            <LotInfo prop={`Level:`} value={`${lot.levelId}`} />
+            <LotInfo prop={`Lot Name:`} value={`${lot.lotName}`} />
+          </View>
+          {!licensePlate && <Accordion
+            topComponent={
+              <CText
+                styles={{
+                  backgroundColor: CColors.button,
+                  padding: 10,
+                  marginTop: 20,
+                  borderRadius: 10
+                }}
+              >
+                View Past Feedback
+              </CText>
             }
-            else navigation.navigate("FeedbackForm", { id: lot.lotName });
-          }}
-        />
+          >
+            {feedbacks.length > 0 && 
+              <SpacedColumn>
+                {feedbacks.map((feedback, i) => {
+                  return <CText
+                    key={i}
+                    styles={{
+                      backgroundColor: CColors.accordion,
+                      borderRadius: 10,
+                    }}
+                  >
+                    {`Issue(s): ${feedback.kerb && "kerb, "}${
+                      feedback.paint && "paint, "
+                    }${feedback.other}\n`}
+                    {`Status: ${feedback.jobStatus}\nETA: ${feedback.eta}`}
+                  </CText>;})}
+              </SpacedColumn>
+            }
+            {feedbacks.length === 0 && <CText
+                styles={{
+                  backgroundColor: CColors.accordion,
+                  borderRadius: 10,
+                  marginTop: 20,
+                  padding: 10,
+                }}
+              >
+                No previous feedback
+              </CText>}
+          </Accordion>}
+          <TextButton
+            styles={{
+              borderRadius: 10,
+              marginVertical: 20,
+              padding: 10,
+            }}
+            textStyle={{ fontSize: 20 }}
+            label={licensePlate ? `Mark this lot for '${licensePlate}'` : "Give Feedback"}
+            onPress={() => {
+              setErrorMsg();
+              if (licensePlate) {
+                console.log(lot.id, licensePlate);
+                setLicenseplate(lot.id, licensePlate)
+                  .then(({ data }) => {
+                    if (data === 'OK') navigation.navigate("ConfirmSave", { licensePlate });
+                    else setErrorMsg('Failed to mark this lot.');
+                  })
+                  .catch((_) => setErrorMsg('Failed to mark this lot.'));
+                
+              }
+              else navigation.navigate("FeedbackForm", { id: lot.lotName });
+            }}
+          />
+          {errorMsg && <CText styles={{ color: 'red' }}>{errorMsg}</CText>}
+        </SpacedColumn>
       </View>
     </View>
   );
