@@ -1,14 +1,14 @@
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator } from "react-native";
 import CText from "../../widgets/CText";
-import Header from "../../widgets/Header";
 import { getCPVacant } from "../../api";
 import SearchResults from "../../widgets/SearchResults";
+import HeaderLayout from "../../widgets/HeaderLayout";
 
 const ResultPage = ({ navigation, route }) => {
   const { postalCode, coords } = route.params;
   if (!postalCode && !coords) throw "Need at least postal code or coordinates!";
 
-  const effect = (carpark, setRemInfo, setDetailedInfo) => {
+  const effect = (carpark, setRemInfo, setDetailedInfo, setWarningMessage) => {
     setRemInfo([{
       value: <ActivityIndicator />,
       subText: ''
@@ -24,15 +24,16 @@ const ResultPage = ({ navigation, route }) => {
             return [ lvlId, val.vacant ];
           });
         
+        if (carpark.renovation) setWarningMessage('may have renovation works.');
         setRemInfo([{
           value: vacantCount,
           subText: 'lots'
         }]);
-        console.log(lvlInfo);
         setDetailedInfo(lvlInfo);
 
       })
       .catch((_) => {
+        setWarningMessage('unable to determine vacant lots.');
         setRemInfo([
           { value: 'N/A', subText: 'lots' }
         ]);
@@ -40,22 +41,19 @@ const ResultPage = ({ navigation, route }) => {
       });
   };
 
-  return (
-    <View>
-      <Header>
-        <CText>
-          Showing results for{" "}
-          <CText styles={{ fontWeight: "bold" }}>{postalCode}</CText>
-        </CText>
-      </Header>
-      <SearchResults 
+  return <HeaderLayout
+    headerComponent={<CText>
+      Showing results for{" "}
+      <CText styles={{ fontWeight: "bold" }}>{postalCode}</CText>
+    </CText>}
+  >
+    <SearchResults 
         navigation={navigation}
         postalCode={postalCode}
         coords={coords}
         effect={effect}
       />
-    </View>
-  );
+  </HeaderLayout>;
 };
 
 export default ResultPage;
