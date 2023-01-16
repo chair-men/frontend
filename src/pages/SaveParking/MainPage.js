@@ -6,6 +6,7 @@ import Header from "../../widgets/Header";
 import InputField from "../../widgets/InputField";
 import TextButton from "../../widgets/TextButton";
 import CText from "../../widgets/CText";
+import LocationButton from "../../widgets/LocationButton";
 
 const MainPage = ({ navigation }) => {
   const [licencePlate, onChangeLicencePlate] = useState("");
@@ -30,7 +31,7 @@ const MainPage = ({ navigation }) => {
           <InputField
             text={"Enter your licence plate:"}
             value={licencePlate}
-            onChange={onChangeLicencePlate}
+            onChange={(newVal) => onChangeLicencePlate(newVal.toLocaleUpperCase())}
             maxLength={8}
           />
 
@@ -52,15 +53,13 @@ const MainPage = ({ navigation }) => {
               });
             }}
           />
-
-          <TextButton
-            label="Use my location"
+          <LocationButton 
             enabled={licencePlate.length > 0 && licencePlate.length <= 8}
-            onPress={() => {
+            onComplete={(coords) => {
               navigation.navigate("SaveParkingResultPage", {
-                postalCode: postalCode,
-                licencePlate: licencePlate,
-              });
+                coords: coords,
+                licencePlate: licencePlate
+              });  
             }}
           />
         </SpacedColumn>

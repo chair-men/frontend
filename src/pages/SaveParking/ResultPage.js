@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import SpacedColumn from "../../widgets/SpacedColumn";
 import CText from "../../widgets/CText";
 import Header from "../../widgets/Header";
@@ -6,10 +6,68 @@ import CarparkDisplay from "../../widgets/CarparkDisplay";
 import { testCP } from "../../testdata/test";
 import Button from "../../widgets/Button";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { useEffect, useState } from "react";
+import { coordsFromPostal } from "../../api";
+import { calcDistance } from "../../../utils/location";
 
 const ResultPage = ({ navigation, route }) => {
-  const { licencePlate, postalCode } = route.params;
-  const carparks = [testCP];
+  const { licencePlate, postalCode, coords } = route.params;
+  const [ userCoords, setUserCoords ] = useState(coords);
+  const [ carparks, setCarparks ] = useState([]);
+
+  useEffect(() => {
+    const onSuccess = (newCP) => {
+      setSearching(false);
+      setCarparks(newCP);
+    };
+
+    const onFailure = (e) => {
+      console.log(e);
+      setSearching(false);
+      setCarparks([]);
+    };
+
+    if (postalCode !== undefined) {
+      coordsFromPostal(postalCode)
+        .then((coords) => {
+          setUserCoords(coords);
+
+          searchCPPostal(postalCode)
+            .then(onSuccess)
+            .catch(onFailure);
+        })
+        .catch(onFailure);
+    }
+    else if (coords !== undefined) searchCPCoords(coords)
+      .then(onSuccess)
+      .catch(onFailure);
+  }, []);
+
+  if (carparks.length < 1) return <View
+    style={{
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: CColors.backdrop
+    }}
+  >
+    {
+      searching 
+        ? <SpacedColumn>
+          <ActivityIndicator size='large' />
+          <CText>Searching for nearby carparks...</CText>
+        </SpacedColumn>
+        : <SpacedColumn
+          alignItems='stretch'
+        >
+          <CText>We couldn't find any carparks for you.</CText>
+          <TextButton
+            label='Go Back'
+            onPress={() => navigation.pop()} 
+          />
+        </SpacedColumn>
+    }
+  </View>;
 
   return (
     <View>
@@ -18,6 +76,8 @@ const ResultPage = ({ navigation, route }) => {
       </Header>
       <SpacedColumn alignItems="stretch" width="100%" spacing={20}>
         {carparks.map((cp) => {
+          const distance = calcDistance(userCoords.lat, userCoords.lng, cp.coordinates.lat, cp.coordinates.lng).toFixed(2);
+
           return (
             <CarparkDisplay
               navigation={navigation}
@@ -26,7 +86,7 @@ const ResultPage = ({ navigation, route }) => {
               carpark={cp}
               warningMessage={cp?.warningMessage}
               info={[
-                { value: 0.5, subText: "km away" },
+                { value: distance, subText: "km away" },
                 {
                   value: (
                     <Button
@@ -34,7 +94,7 @@ const ResultPage = ({ navigation, route }) => {
                         navigation.navigate("LocationViewer", {
                           marker: {
                             name: cp.name,
-                            coordinates: cp.coordinates.split(", "),
+                            coordinates: cp.coordinates,
                             id: cp.id,
                           },
                         });

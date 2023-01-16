@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import TextButton from "../../widgets/TextButton";
 import CColors from "../../constants/CColors";
 import { searchCPCoords, searchCPPostal } from "../../api";
+import { calcDistance } from "../../../utils/location";
 
 const ResultPage = ({ navigation, route }) => {
   const { postalCode, coords } = route.params;
@@ -88,6 +89,8 @@ const ResultPage = ({ navigation, route }) => {
       </Header>
       <SpacedColumn alignItems="stretch" width="100%" spacing={20}>
         {carparks.map((cp, i) => {
+          const distance = calcDistance(userCoords.lat, userCoords.lng, cp.coordinates.lat, cp.coordinates.lng).toFixed(2);
+
           return (
             <CarparkDisplay
               key={i}
@@ -97,7 +100,7 @@ const ResultPage = ({ navigation, route }) => {
               carpark={cp}
               warningMessage={cp?.warningMessage}
               info={[
-                { value: 0.5, subText: "km away" },
+                { value: distance, subText: "km away" },
                 {
                   value: availableLots?.[cp.id]
                     ? Object.values(availableLots[cp.id]).reduce(
@@ -114,7 +117,7 @@ const ResultPage = ({ navigation, route }) => {
                         navigation.navigate("LocationViewer", {
                           marker: {
                             name: cp.name,
-                            coordinates: cp.coordinates.split(", "),
+                            coordinates: cp.coordinates,
                             id: cp.id,
                           },
                         });
