@@ -7,16 +7,17 @@ import InputField from "../../widgets/InputField";
 import TextButton from "../../widgets/TextButton";
 import CText from "../../widgets/CText";
 import LocationButton from "../../widgets/LocationButton";
+import HeaderLayout from "../../widgets/HeaderLayout";
 
 const MainPage = ({ navigation }) => {
   const [licensePlate, onChangeLicensePlate] = useState("");
   const [postalCode, onChangePostalCode] = useState("");
 
   return (
-    <>
-      <Header>
-        <CText>Save your car location!</CText>
-      </Header>
+    <HeaderLayout
+        headerComponent={<CText>Save your car location!</CText>}
+        backFn={() => navigation.pop()}
+    >
       <View
         style={{
           display: "flex",
@@ -64,7 +65,7 @@ const MainPage = ({ navigation }) => {
           />
         </SpacedColumn>
       </View>
-    </>
+    </HeaderLayout>
   );
 };
 

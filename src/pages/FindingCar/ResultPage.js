@@ -7,6 +7,7 @@ import CColors from "../../constants/CColors";
 import TextButton from "../../widgets/TextButton";
 import { useEffect, useState } from "react";
 import { getCP, searchCPLot } from "../../api";
+import ClickableIcon from "../../widgets/ClickableIcon";
 
 const ResultPage = ({ route, navigation }) => {
   const { licensePlate } = route.params;
@@ -77,6 +78,18 @@ const ResultPage = ({ route, navigation }) => {
           styles={{ width: "80%", alignSelf: 'center' }}
         />
       </SpacedColumn>
+      <View
+        style={{
+          position: 'absolute',
+          top: 5,
+          right: 5
+        }}
+      >
+        <ClickableIcon
+          iconName='window-close'
+          onPress={() => navigation.pop()}
+        />
+      </View>
     </View>
   );
 };

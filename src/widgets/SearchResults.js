@@ -1,4 +1,3 @@
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, ScrollView, View } from "react-native";
 import { calcDistance } from "../../utils/location";
@@ -6,6 +5,7 @@ import { coordsFromPostal, searchCPCoords, searchCPPostal } from "../api";
 import Carpark from "../dataclasses/Carpark";
 import Button from "./Button";
 import CarparkDisplay from "./CarparkDisplay";
+import ClickableIcon from "./ClickableIcon";
 import CText from "./CText";
 import SpacedColumn from "./SpacedColumn";
 
@@ -27,26 +27,23 @@ const CPResult = ({ navigation, carpark, distance, effect }) => {
         licensePlate={licensePlate}
         info={[
         { value: distance.toFixed(2), subText: "km away" },
+        ...remInfo,
         {
-            value: (
-            <Button
+            value: (<ClickableIcon 
+                iconName='map'
                 onPress={() => {
-                navigation.navigate("LocationViewer", {
-                    marker: {
-                    name: carpark.name,
-                    coordinates: carpark.coordinates,
-                    id: carpark.id,
-                    },
-                });
+                    navigation.navigate("LocationViewer", {
+                        marker: {
+                        name: carpark.name,
+                        coordinates: carpark.coordinates,
+                        id: carpark.id,
+                        },
+                    });
                 }}
                 styles={{ backgroundColor: CColors.backdrop }}
-            >
-                <FontAwesome5 name={"map"} size={22} />
-            </Button>
-            ),
+            />),
             subText: "Map",
-        },
-        ...remInfo
+        }
         ]}
         detailedInfo={detailedInfo}
     />

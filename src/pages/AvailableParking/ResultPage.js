@@ -42,6 +42,7 @@ const ResultPage = ({ navigation, route }) => {
   };
 
   return <HeaderLayout
+    backFn={() => navigation.pop()}
     headerComponent={<CText>
       Showing results for{" "}
       <CText styles={{ fontWeight: "bold" }}>{postalCode ? postalCode : 'your current location'}</CText>

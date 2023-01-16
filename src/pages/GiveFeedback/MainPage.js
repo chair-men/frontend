@@ -72,6 +72,8 @@ const ResultPage = ({ route, navigation }) => {
         maxLength={6}
       />
     </>}
+
+    backFn={() => navigation.pop()}
   >
     <SearchResults
       navigation={navigation}

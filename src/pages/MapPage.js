@@ -8,6 +8,7 @@ import PanWindow from "../widgets/PanWindow";
 import SpacedColumn from "../widgets/SpacedColumn";
 import Level from '../dataclasses/Level';
 import Title from "../widgets/Title";
+import ClickableIcon from "../widgets/ClickableIcon";
 
 const LevelDisplay = ({ navigation, carparkId, levelId, setCenter, onLoad, startLotId, licensePlate }) => {
     const [ width, setWidth ] = useState(1000);
@@ -31,7 +32,7 @@ const LevelDisplay = ({ navigation, carparkId, levelId, setCenter, onLoad, start
                 setLevel(lvl);
                 setLoading(false);
                 onLoad();
-                
+
                 if (startLotId) navigation.navigate("LotModal", { lot: lvl.lots.find(lot => lot.id === startLotId)});
             })
             .catch((_) => {
@@ -218,6 +219,18 @@ const MapPage = ({ navigation, route }) => {
         >
             <Title>Select a lot</Title>
         </View>
+        <View
+        style={{
+          position: 'absolute',
+          top: 5,
+          right: 5
+        }}
+      >
+        <ClickableIcon 
+          iconName='window-close'
+          onPress={() => navigation.pop()}
+        />
+      </View>
     </View>;
 };
 

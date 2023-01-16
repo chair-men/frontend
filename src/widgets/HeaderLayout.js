@@ -1,7 +1,8 @@
 import { View } from "react-native";
+import ClickableIcon from "./ClickableIcon";
 import Header from "./Header";
 
-const HeaderLayout = ({ headerComponent, children }) => {
+const HeaderLayout = ({ headerComponent, children, backFn }) => {
     return <View
         style={{
             display: 'flex',
@@ -11,6 +12,21 @@ const HeaderLayout = ({ headerComponent, children }) => {
     >
         <Header>
             {headerComponent}
+            {backFn && 
+                <View
+                    style={{
+                        position:'absolute',
+                        right: 5,
+                        top: 5,
+
+                    }}
+                >
+                    <ClickableIcon
+                        iconName='window-close'
+                        onPress={() => backFn()}
+                    />
+                </View>
+            }
         </Header>
         <View
             style={{

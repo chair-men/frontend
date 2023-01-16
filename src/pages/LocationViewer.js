@@ -1,6 +1,7 @@
 import MapView, { Marker } from "react-native-maps";
 import { View, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
+import ClickableIcon from "../widgets/ClickableIcon";
 
 const LocationViewer = ({ initialCoords, navigation, route }) => {
   let marker = route.params.marker;
@@ -42,6 +43,18 @@ const LocationViewer = ({ initialCoords, navigation, route }) => {
           />
         )}
       </MapView>
+      <View
+        style={{
+          position: 'absolute',
+          top: 5,
+          right: 5
+        }}
+      >
+        <ClickableIcon 
+          iconName='window-close'
+          onPress={() => navigation.pop()}
+        />
+      </View>
     </View>
   );
 };

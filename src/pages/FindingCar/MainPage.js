@@ -6,15 +6,16 @@ import CText from "../../widgets/CText";
 import InputBox from "../../widgets/InputBox";
 import IconButton from "../../widgets/IconButton";
 import Header from "../../widgets/Header";
+import HeaderLayout from "../../widgets/HeaderLayout";
 
 const MainPage = ({ navigation }) => {
   const [licensePlate, onChangeLicensePlate] = useState("");
 
   return (
-    <>
-      <Header>
-        <CText>Find Your Car!</CText>
-      </Header>
+    <HeaderLayout
+      headerComponent={<CText>Find Your Car!</CText>}
+      backFn={() => navigation.pop()}
+    >
       <View
         style={{
           display: "flex",
@@ -44,7 +45,7 @@ const MainPage = ({ navigation }) => {
           />
         </SpacedColumn>
       </View>
-    </>
+    </HeaderLayout>
   );
 };
 

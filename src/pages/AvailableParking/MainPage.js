@@ -7,6 +7,7 @@ import InputBox from "../../widgets/InputBox";
 import IconButton from "../../widgets/IconButton";
 import Header from "../../widgets/Header";
 import LocationButton from "../../widgets/LocationButton";
+import HeaderLayout from "../../widgets/HeaderLayout";
 
 const AvailableParkingMainPage = ({ navigation }) => {
   const [postalCode, onChangePostalCode] = useState("");
@@ -41,10 +42,10 @@ const AvailableParkingMainPage = ({ navigation }) => {
   };
 
   return (
-    <>
-      <Header>
-        <CText>Find Available Parking!</CText>
-      </Header>
+    <HeaderLayout
+        headerComponent={<CText>Find Available Parking!</CText>}
+        backFn={() => navigation.pop()}
+    >
       <View
         style={{
           display: "flex",
@@ -75,7 +76,7 @@ const AvailableParkingMainPage = ({ navigation }) => {
           />
         </SpacedColumn>
       </View>
-    </>
+    </HeaderLayout>
   );
 };
 
