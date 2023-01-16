@@ -21,10 +21,10 @@ const LocationViewer = ({ initialCoords, navigation, route }) => {
         {marker && (
           <Marker
             coordinate={{
-              latitude: parseFloat(marker.coordinates[0]),
-              longitude: parseFloat(marker.coordinates[1]),
+              latitude: parseFloat(marker.coordinates.lat),
+              longitude: parseFloat(marker.coordinates.lng),
             }}
-            title={`${marker.name}`}
+            title={marker.name}
             onCalloutPress={() => {
               navigation.navigate("AvailableParkingResultPage", {
                 postalCode: marker?.postalCode,

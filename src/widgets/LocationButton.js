@@ -2,7 +2,8 @@ import { useState } from "react";
 import { getLocation } from "../../utils/location";
 import IconButton from "./IconButton";
 
-const LocationButton = ({ onStart, onComplete }) => {
+const LocationButton = ({ enabled, onStart, onComplete }) => {
+    if (enabled === undefined) enabled = true;
     const [ loading, setLoading ] = useState(false);
     
     const completeSeq = (coords) => {
@@ -12,15 +13,15 @@ const LocationButton = ({ onStart, onComplete }) => {
 
     return <IconButton
     label={loading ? "Finding your location..." : "Use my location"}
-    enabled={!loading}
+    enabled={!loading && enabled}
     onPress={() => {
         if (onStart) onStart();
-        
+
         setLoading(true);
 
         getLocation().then((loc) => {
             const { latitude, longitude } = loc.coords;
-            completeSeq(`${latitude},${longitude}`);
+            completeSeq({ lat: latitude, lng: longitude });
         }).catch((_) => {
             completeSeq();
         });

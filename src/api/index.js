@@ -14,7 +14,7 @@ const post = (endpoint, data) => {
     return axiosInstance.post(endpoint, data);
 };
 
-const coords = (postal) => {
+const coordsFromPostal = (postal) => {
     return get('/coords', { postal });
 };
 
@@ -66,7 +66,7 @@ const searchCPCoords = (coords) => {
 };
 
 export {
-    coords,
+    coordsFromPostal,
     getCP, getCPLevel, getCPOccupied, getCPVacant,
     markOccupied, markVacant,
     allCPs,
