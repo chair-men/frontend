@@ -7,6 +7,8 @@ import TextButton from "../widgets/TextButton";
 import { getFeedback, setLicenseplate } from "../api";
 import { useEffect, useState } from "react";
 import SpacedColumn from "../widgets/SpacedColumn";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import ClickableIcon from "../widgets/ClickableIcon";
 
 const LotInfo = ({ prop, value }) => {
   return (
@@ -26,45 +28,48 @@ const LotInfo = ({ prop, value }) => {
 const LotModal = ({ navigation, route }) => {
   const { lot, licensePlate } = route.params;
   const [feedbacks, setFeedbacks] = useState([]);
-  const [ errorMsg, setErrorMsg ] = useState();
+  const [errorMsg, setErrorMsg] = useState();
 
-  console.log(lot)
-
-  if (!licensePlate) useEffect(() => {
-    getFeedback(lot.id)
-      .then(({ data: data }) => {
-        setFeedbacks(data);
-    })
-      .catch((e) => {
-        console.log(e)
-        console.log("Failed to get feedbacks");
-      });
-  }, []);
+  if (!licensePlate)
+    useEffect(() => {
+      getFeedback(lot.id)
+        .then(({ data: data }) => {
+          setFeedbacks(data);
+        })
+        .catch((e) => {
+          console.log("Failed to get feedbacks");
+        });
+    }, []);
 
   return (
-    <View
+    <TouchableWithoutFeedback
+      onPress={() => navigation.pop()}
       style={{
-        flex: 1,
+        // flex: 1,
         backgroundColor: "rgba(209, 209, 209, 0.4)",
         alignItems: "center",
         justifyContent: "center",
         padding: 40,
+        width: "100%",
+        height: "100%",
       }}
     >
-      <View
+      <TouchableWithoutFeedback
+        onPress={() => {}}
         style={{
-          width: "100%",
+          width: "80%",
           //   height: "100%",
           borderRadius: 20,
           padding: 20,
           backgroundColor: CColors.backdrop,
         }}
       >
-        <SpacedColumn width='100%' alignItems='stretch'>
+        <SpacedColumn width="100%" alignItems="stretch">
           <View
             style={{
               backgroundColor: "white",
               borderRadius: 20,
+              marginTop: 30, 
               padding: 20,
             }}
           >
@@ -77,50 +82,57 @@ const LotModal = ({ navigation, route }) => {
             <LotInfo prop={`Level:`} value={`${lot.levelId}`} />
             <LotInfo prop={`Lot Name:`} value={`${lot.lotName}`} />
           </View>
-          {!licensePlate && <Accordion
-            topComponent={
-              <CText
-                styles={{
-                  backgroundColor: CColors.button,
-                  padding: 10,
-                  marginTop: 20,
-                  borderRadius: 10
-                }}
-              >
-                View Past Feedback
-              </CText>
-            }
-          >
-            {feedbacks.length > 0 && 
-              <SpacedColumn>
-                {feedbacks.map((feedback, i) => {
-                  return <CText
-                    key={i}
-                    styles={{
-                      backgroundColor: CColors.accordion,
-                      borderRadius: 10,
-                      marginTop: 10,
-                      width: "100%"
-                    }}
-                  >
-                    {`Issue(s): ${feedback.kerb && "Kerb, "}${
-                      feedback.paint && "Paint, "
-                    }${feedback.other}\n`}
-                    {`Status: ${feedback.jobStatus}\nETA: ${feedback.eta}`}
-                  </CText>;})}
-              </SpacedColumn>
-            }
-            {feedbacks.length === 0 && <CText
-                styles={{
-                  backgroundColor: CColors.accordion,
-                  borderRadius: 10,
-                  marginTop: 20,
-                  padding: 10,
-                }}
-              >
-                No previous feedback
-              </CText>}
-          </Accordion>}
+          {!licensePlate && (
+            <Accordion
+              topComponent={
+                <CText
+                  styles={{
+                    backgroundColor: CColors.button,
+                    padding: 10,
+                    marginTop: 20,
+                    borderRadius: 10,
+                  }}
+                >
+                  View Past Feedback
+                </CText>
+              }
+            >
+              {feedbacks.length > 0 && (
+                <SpacedColumn>
+                  {feedbacks.map((feedback, i) => {
+                    return (
+                      <CText
+                        key={i}
+                        styles={{
+                          backgroundColor: CColors.accordion,
+                          borderRadius: 10,
+                          marginTop: 10,
+                          paddingHorizontal: 20,
+                        }}
+                      >
+                        {`Issue(s): ${feedback.kerb ? "Kerb, " : ""}${
+                          feedback.paint ? "Paint, " : ""
+                        }${feedback.other}\n`}
+                        {`Status: ${feedback.jobStatus}\nETA: ${feedback.eta}`}
+                      </CText>
+                    );
+                  })}
+                </SpacedColumn>
+              )}
+              {feedbacks.length === 0 && (
+                <CText
+                  styles={{
+                    backgroundColor: CColors.accordion,
+                    borderRadius: 10,
+                    marginTop: 20,
+                    padding: 10,
+                  }}
+                >
+                  No previous feedback
+                </CText>
+              )}
+            </Accordion>
+          )}
           <TextButton
             styles={{
               borderRadius: 10,
@@ -128,26 +140,41 @@ const LotModal = ({ navigation, route }) => {
               padding: 10,
             }}
             textStyle={{ fontSize: 20 }}
-            label={licensePlate ? `Mark this lot for '${licensePlate}'` : "Give Feedback"}
+            label={
+              licensePlate
+                ? `Mark this lot for '${licensePlate}'`
+                : "Give Feedback"
+            }
             onPress={() => {
               setErrorMsg();
               if (licensePlate) {
-                console.log(lot.id, licensePlate);
                 setLicenseplate(lot.id, licensePlate)
                   .then(({ data }) => {
-                    if (data === 'OK') navigation.navigate("ConfirmSave", { licensePlate });
-                    else setErrorMsg('Failed to mark this lot.');
+                    if (data === "OK")
+                      navigation.navigate("ConfirmSave", { licensePlate });
+                    else setErrorMsg("Failed to mark this lot.");
                   })
-                  .catch((_) => setErrorMsg('Failed to mark this lot.'));
-                
-              }
-              else navigation.navigate("FeedbackForm", { id: lot.id, name: lot.lotName });
+                  .catch((_) => setErrorMsg("Failed to mark this lot."));
+              } else
+                navigation.navigate("FeedbackForm", {
+                  id: lot.id,
+                  name: lot.lotName,
+                });
             }}
           />
-          {errorMsg && <CText styles={{ color: 'red' }}>{errorMsg}</CText>}
+          {errorMsg && <CText styles={{ color: "red" }}>{errorMsg}</CText>}
         </SpacedColumn>
-      </View>
-    </View>
+        <View
+          style={{
+            position: "absolute",
+            right: 5,
+            top: 5,
+          }}
+        >
+          <ClickableIcon iconName="window-close" onPress={() => navigation.pop()} />
+        </View>
+      </TouchableWithoutFeedback>
+    </TouchableWithoutFeedback>
   );
 };
 

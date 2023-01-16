@@ -46,7 +46,7 @@ export default function App() {
                 <Stack.Screen name="MapPage" component={MapPage} />
                 <Stack.Screen name="ConfirmSave" component={ConfirmSave} />
                 <Stack.Screen name="LocationViewer" component={LocationViewer} />
-                <Stack.Screen name="LotModal" component={LotModal} options={{ presentation: 'transparentModal' }} />
+                <Stack.Screen name="LotModal" component={LotModal} options={{ presentation: 'transparentModal',  animation: 'fade' }} />
               </Stack.Navigator>
             </GestureHandlerRootView>
           </SafeAreaView>
