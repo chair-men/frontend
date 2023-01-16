@@ -9,6 +9,9 @@ import SaveParkingMainPage from "./src/pages/SaveParking/MainPage";
 import SaveParkingResultPage from "./src/pages/SaveParking/ResultPage";
 import FindingCarMainPage from "./src/pages/FindingCar/MainPage";
 import FindingCarResultPage from "./src/pages/FindingCar/ResultPage";
+import GiveFeedbackMainPage from "./src/pages/GiveFeedback/MainPage";
+import FeedbackForm from "./src/pages/GiveFeedback/FeedbackForm";
+import ThankYou from "./src/pages/GiveFeedback/ThankYou";
 import MapPage from "./src/pages/MapPage";
 
 const Stack = createNativeStackNavigator();
@@ -29,6 +32,9 @@ export default function App() {
                 <Stack.Screen name="SaveParkingResultPage" component={SaveParkingResultPage} />
                 <Stack.Screen name="FindingCarMainPage" component={FindingCarMainPage} />
                 <Stack.Screen name="FindingCarResultPage" component={FindingCarResultPage} />
+                <Stack.Screen name="GiveFeedbackMainPage" component={GiveFeedbackMainPage} />
+                <Stack.Screen name="FeedbackForm" component={FeedbackForm} />
+                <Stack.Screen name="ThankYou" component={ThankYou} />
                 <Stack.Screen name="MapPage" component={MapPage} />
               </Stack.Navigator>
             </GestureHandlerRootView>

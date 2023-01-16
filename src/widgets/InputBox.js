@@ -1,6 +1,6 @@
 import { TextInput } from "react-native";
 
-const InputBox = ({ value, onChange, placeholder="", keyboardType="default", maxLength=200 }) => {
+const InputBox = ({ value, onChange, placeholder="", keyboardType="default", maxLength=200, styles }) => {
   const textStyle = {
     textAlign: "center",
     backgroundColor: "white",
@@ -11,7 +11,7 @@ const InputBox = ({ value, onChange, placeholder="", keyboardType="default", max
 
   return (
     <TextInput
-      style={textStyle}
+      style={{...textStyle, ...styles}}
       onChangeText={onChange}
       value={value}
       placeholder={placeholder}

@@ -1,15 +1,17 @@
 import { View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import CColors from "../constants/CColors";
 import Accordion from "./Accordion";
 import CText from "./CText";
 import SpacedColumn from "./SpacedColumn";
 import SpacedRow from "./SpacedRow";
+import TextButton from "./TextButton";
 
 const spacing = 5;
 const mainFontSize = 24;
 const subFontSize = 14;
 
-const CarparkDisplay = ({ name, warningMessage, info, detailedInfo }) => {
+const CarparkDisplay = ({ navigation, name, warningMessage, info, detailedInfo, nav }) => {
   return (
     <Accordion
       topComponent={
@@ -31,16 +33,26 @@ const CarparkDisplay = ({ name, warningMessage, info, detailedInfo }) => {
             <CText styles={{ fontSize: mainFontSize, fontWeight: "bold" }}>
               {name}
             </CText>
-            {warningMessage && <CText styles={{ fontSize: subFontSize, color: "red" }}>
-              {warningMessage}
-            </CText>}
+            {warningMessage && (
+              <CText styles={{ fontSize: subFontSize, color: "red" }}>
+                {warningMessage}
+              </CText>
+            )}
           </SpacedColumn>
 
           <SpacedRow spacing={20}>
             {info &&
               info.map((x, idx) => (
                 <SpacedColumn key={idx} spacing={spacing}>
-                  <CText styles={{ fontSize: mainFontSize }}>{x.value}</CText>
+                  <CText
+                    styles={{
+                      fontSize: mainFontSize,
+                      minHeight: 30,
+                      maxHeight: 30,
+                    }}
+                  >
+                    {x.value}
+                  </CText>
                   <CText styles={{ fontSize: subFontSize }}>{x.subText}</CText>
                 </SpacedColumn>
               ))}
@@ -66,23 +78,44 @@ const CarparkDisplay = ({ name, warningMessage, info, detailedInfo }) => {
           detailedInfo.map((info, idx) => (
             <SpacedColumn key={idx}>
               {Array.isArray(info) ? (
-                <View
+                <TouchableOpacity
                   style={{
                     backgroundColor: "white",
                     display: "flex",
                     flexDirection: "row",
-                    justifyContent: "space-between",
-                    padding: spacing,
+                    justifyContent: "space-evenly",
+                    paddingTop: spacing,
+                    paddingBottom: spacing,
                     width: "100%",
                     alignSelf: "center",
+                    margin: 0,
+                  }}
+                  onPress={() => {
+                    navigation.navigate(nav, { carpark: name + ' ' + info[0] });
                   }}
                 >
-                  {info.map((x) => {
-                    return <CText styles={{ fontWeight: "bold" }}>{x}</CText>;
+                  {info.map((x, i) => {
+                    return (
+                      <CText key={i} styles={{ fontWeight: "bold" }}>
+                        {x}
+                      </CText>
+                    );
                   })}
-                </View>
+                </TouchableOpacity>
               ) : (
-                <CText styles={{ fontWeight: "bold", padding: spacing }}>{info}</CText>
+                
+                <TextButton
+                  label={info}
+                  styles={{
+                    padding: spacing,
+                    width: "100%",
+                    backgroundColor: "white",
+                  }}
+                  textStyle={{ fontWeight: "bold", fontSize: 20 }}
+                  onPress={() => {
+                    navigation.navigate(nav, { carpark: name + ' ' + info });
+                  }}
+                />
               )}
             </SpacedColumn>
           ))}

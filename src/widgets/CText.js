@@ -1,13 +1,14 @@
 import { Text } from "react-native";
 
-const CText = ({ children, styles={} }) => {
+const CText = ({ children, styles }) => {
   const textStyle = {
     textAlign: "center",
     fontSize: 20,
-    ...styles,
+    // minHeight: 30,
+    // maxHeight: 30,
   };
 
-  return <Text style={textStyle}>{children}</Text>;
+  return <Text style={{ ...textStyle, ...styles }}>{children}</Text>;
 };
 
 export default CText;

@@ -1,7 +1,7 @@
 import { TouchableOpacity, View } from "react-native";
 import CColors from "../constants/CColors";
 
-const Button = ({ children, onPress, enabled }) => {
+const Button = ({ children, onPress, enabled, styles }) => {
   if (enabled === undefined) enabled = onPress; //enable button by default
   const bStyle = {
     display: "flex",
@@ -14,12 +14,12 @@ const Button = ({ children, onPress, enabled }) => {
 
   if (enabled)
     return (
-      <TouchableOpacity style={bStyle} onPress={() => onPress()}>
+      <TouchableOpacity style={{...bStyle, ...styles}} onPress={() => onPress()}>
         {children}
       </TouchableOpacity>
     );
 
-  return <View style={bStyle}>{children}</View>;
+  return <View style={{...bStyle, ...styles}}>{children}</View>;
 };
 
 export default Button;

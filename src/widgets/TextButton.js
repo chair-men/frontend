@@ -1,12 +1,13 @@
 import { Text } from "react-native";
 import Button from "./Button"
 
-const TextButton = ({ onPress, enabled, label }) => {
+const TextButton = ({ onPress, enabled, label, styles, textStyle }) => {
     return <Button
         onPress={onPress}
         enabled={enabled}
+        styles={styles}
     >
-        <Text>{label}</Text>
+        <Text style={textStyle}>{label}</Text>
     </Button>
 };
 

@@ -3,6 +3,7 @@ import SpacedColumn from "../../widgets/SpacedColumn";
 import CText from "../../widgets/CText";
 import Header from "../../widgets/Header";
 import CarparkDisplay from "../../widgets/CarparkDisplay";
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 const ResultPage = ({ route }) => {
   const { postalCode } = route.params;
@@ -21,6 +22,7 @@ const ResultPage = ({ route }) => {
           info={[
             { value: 0.5, subText: "km away" },
             { value: 5, subText: "lots" },
+            { value: <FontAwesome5 name={"map"} size={20} />, subText: "Map" },
           ]}
           detailedInfo={[['Level 3', '3 lots'], ['Level 2', '1 lot'], ['Level 1', '1 lot']]}
           // detailedInfo={['Level 1', 'Level 2', 'Level 3']}
@@ -31,6 +33,7 @@ const ResultPage = ({ route }) => {
           info={[
             { value: 0.5, subText: "km away" },
             { value: 5, subText: "lots" },
+            { value: <FontAwesome5 name={"map"} size={20} />, subText: "Map" },
           ]}
           detailedInfo={[['Level 3', '3 lots'], ['Level 2', '1 lot'], ['Level 1', '1 lot']]}
           // detailedInfo={['Level 1', 'Level 2', 'Level 3']}

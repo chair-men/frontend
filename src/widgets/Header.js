@@ -6,11 +6,13 @@ const Header = ({ children }) => {
     <View
       style={{
         display: "flex",
+        flexDirection: 'row',
         width: "100%",
         alignItems: "center",
         backgroundColor: CColors.header,
         padding: 20,
         marginBottom: 30,
+        justifyContent: 'space-around'
       }}
     >
       {children}
