@@ -35,7 +35,7 @@ const FeedbackForm = ({ route, navigation }) => {
   const [kerb, setKerb] = useState(false);
   const [paint, setPaint] = useState(false);
   const [other, setOther] = useState(false);
-  const [otherText, setOtherText] = useState('');
+  const [otherText, setOtherText] = useState("");
 
   const pickImage = async () => {
     let result = await ImagePicker.launchCameraAsync({
@@ -82,8 +82,16 @@ const FeedbackForm = ({ route, navigation }) => {
       <CText>Please select the issues below:</CText>
       <Issue name={"Kerb Issues"} value={kerb} onValueChange={setKerb} />
       <Issue name={"Paint Issues"} value={paint} onValueChange={setPaint} />
-      <Issue name={"Others (Please enter below)"} value={other} onValueChange={setOther} />
-      <InputBox value={otherText} onChange={setOtherText} styles={{ width: "90%", alignSelf: 'center'}}/>
+      <Issue
+        name={"Others (Please enter below)"}
+        value={other}
+        onValueChange={setOther}
+      />
+      <InputBox
+        value={otherText}
+        onChange={setOtherText}
+        styles={{ width: "90%", alignSelf: "center", backgroundColor: CColors.accordion, borderBottomWidth: 1,  }}
+      />
       <TextButton
         styles={{
           marginVertical: 30,
@@ -93,12 +101,12 @@ const FeedbackForm = ({ route, navigation }) => {
           borderWidth: 1,
         }}
         textStyle={{
-            fontWeight: 'bold',
-            fontSize: 20, 
+          fontWeight: "bold",
+          fontSize: 20,
         }}
         label={"Submit"}
         onPress={() => {
-            navigation.navigate("ThankYou");
+          navigation.navigate("ThankYou");
         }}
         enabled={image && (kerb || paint || (other && otherText))}
       />
