@@ -41,8 +41,10 @@ const ResultPage = ({ navigation, route }) => {
         {carparks.map((cp) => {
           return (
             <CarparkDisplay
+              navigation={navigation}
+              nav={'LocationViewer'}
               name={cp.name}
-              coordinates={cp.coordinates}
+              coordinates={cp.coordinates.split(", ")}
               id={cp.id}
               warningMessage={cp?.warningMessage}
               info={[

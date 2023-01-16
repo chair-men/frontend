@@ -11,7 +11,7 @@ const spacing = 5;
 const mainFontSize = 22;
 const subFontSize = 14;
 
-const CarparkDisplay = ({ navigation, name, warningMessage, info, detailedInfo, nav }) => {
+const CarparkDisplay = ({ navigation, nav, coordinates, name, id, warningMessage, info, detailedInfo, }) => {
   return (
     <Accordion
       topComponent={
@@ -91,7 +91,7 @@ const CarparkDisplay = ({ navigation, name, warningMessage, info, detailedInfo, 
                     margin: 0,
                   }}
                   onPress={() => {
-                    navigation.navigate(nav, { carpark: name + ' ' + info[0] });
+                    navigation.navigate(nav, { marker: { name: name, coordinates: coordinates, id: id } });
                   }}
                 >
                   {info.map((x, i) => {
