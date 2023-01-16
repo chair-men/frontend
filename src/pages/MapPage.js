@@ -9,7 +9,7 @@ import SpacedColumn from "../widgets/SpacedColumn";
 import Level from '../dataclasses/Level';
 import Title from "../widgets/Title";
 
-const LevelDisplay = ({ navigation, carparkId, levelId, setCenter, licensePlate }) => {
+const LevelDisplay = ({ navigation, carparkId, levelId, setCenter, startLotId, licensePlate }) => {
     const [ width, setWidth ] = useState();
     const [ height, setHeight ] = useState();
     const [ level, setLevel ] = useState();
@@ -26,8 +26,11 @@ const LevelDisplay = ({ navigation, carparkId, levelId, setCenter, licensePlate 
                     setHeight(height);
                     setCenter({ x: width / 2, y: height / 2 });
                 }, console.log);
-                setLevel(Level.fromJSON(data));
+                const lvl = Level.fromJSON(data);
+                setLevel(lvl);
                 setLoading(false);
+
+                if (startLotId) navigation.navigate("LotModal", { lot: lvl.lots.find(lot => lot.id === startLotId)});
             })
             .catch((_) => {
                 setLevel();
@@ -94,10 +97,12 @@ const LevelDisplay = ({ navigation, carparkId, levelId, setCenter, licensePlate 
 const MapPage = ({ navigation, route }) => {
     const { carpark, startLot, licensePlate } = route.params;
     let startLevelId = route.params.startLevel;
+    let startCoords;
     
     const [ loading, setLoading ] = useState(true);
     const [ allLevelIds, setAllLevelIds ] = useState([]);
     const [ levelId, setLevelId ] = useState();
+    const [ initialCoords, setInitialCoords ] = useState();
 
     useEffect(() => {
         getCP(carpark.id)
@@ -105,7 +110,10 @@ const MapPage = ({ navigation, route }) => {
                 const allLvls = Object.keys(data.status);
 
                 if (startLot) {
-                    startLevelId = allLvls.find((lvlId) => lvlId === startLot.levelId);
+                    startLevelId = allLvls.find((lvlId) => lvlId === startLot.level);
+                    const { brx, bry, tlx, tly } = startLot;
+                    setInitialCoords({ x: (tlx + brx) / 2, y: (tly + bry) / 2});
+                    // startCoords = carpark.levels[startLevelId][startLot]
                 }
                 if (startLevelId === undefined) {
                     console.log(allLvls);
@@ -125,7 +133,7 @@ const MapPage = ({ navigation, route }) => {
     const [ translation, setTranslation ] = useState();
     const [ mapCenter, setMapCenter ] = useState();
 
-    const setLocalCenter = (center) => {
+    const setLocalCenter = (center, scale) => {
         const { width, height } = Dimensions.get('window');
         const { x, y } = center;
         setTranslation({ x: width / 2 - x, y: height/2 - y }); 
@@ -160,8 +168,10 @@ const MapPage = ({ navigation, route }) => {
                 levelId={levelId}
                 setCenter={(center) => {
                     setMapCenter(center);
-                    setLocalCenter(center);
+                    if (!initialCoords) setLocalCenter(center);
+                    else setLocalCenter(initialCoords);
                 }}
+                startLotId={startLot.id}
             />
         </PanWindow>
         <View
