@@ -44,7 +44,7 @@ const MainPage = ({ navigation }) => {
 
           <TextButton
             label="Find nearby Carparks"
-            enabled={licencePlate.length === 8 && postalCode.length === 6}
+            enabled={licencePlate.length > 0 && licencePlate.length <= 8 && postalCode.length === 6}
             onPress={() => {
               navigation.navigate("SaveParkingResultPage", {
                 postalCode: postalCode,
@@ -55,7 +55,7 @@ const MainPage = ({ navigation }) => {
 
           <TextButton
             label="Use my location"
-            enabled={licencePlate.length === 8}
+            enabled={licencePlate.length > 0 && licencePlate.length <= 8}
             onPress={() => {
               navigation.navigate("SaveParkingResultPage", {
                 postalCode: postalCode,

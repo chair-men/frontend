@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 const ResultPage = ({ navigation, route }) => {
   const { postalCode } = route.params;
-  const [availableLots, setAvailableLots] = useState({});
+  const [ availableLots, setAvailableLots ] = useState({});
   const carparks = [testCP];
 
   const zip = (a, b) => a.map((k, i) => [k, b[i]]);
@@ -38,14 +38,14 @@ const ResultPage = ({ navigation, route }) => {
         </CText>
       </Header>
       <SpacedColumn alignItems="stretch" width="100%" spacing={20}>
-        {carparks.map((cp) => {
+        {carparks.map((cp, i) => {
           return (
             <CarparkDisplay
+              key={i}
               navigation={navigation}
-              nav={'LocationViewer'}
+              nav={"MapPage"}
               name={cp.name}
-              coordinates={cp.coordinates.split(", ")}
-              id={cp.id}
+              carpark={cp}
               warningMessage={cp?.warningMessage}
               info={[
                 { value: 0.5, subText: "km away" },
@@ -62,7 +62,13 @@ const ResultPage = ({ navigation, route }) => {
                   value: (
                     <Button
                       onPress={() => {
-                        navigation.navigate("Map");
+                        navigation.navigate("LocationViewer", {
+                          marker: {
+                            name: cp.name,
+                            coordinates: cp.coordinates.split(", "),
+                            id: cp.id,
+                          },
+                        });
                       }}
                       styles={{ backgroundColor: CColors.backdrop }}
                     >
@@ -75,12 +81,8 @@ const ResultPage = ({ navigation, route }) => {
               detailedInfo={
                 availableLots?.[cp.id]
                   ? zip(
-                      Object.keys(availableLots?.[cp.id]).map(
-                        (i) => "Level " + i
-                      ),
-                      Object.values(availableLots?.[cp.id]).map(
-                        (i) => i + (i > 1 ? " lots" : " lot")
-                      )
+                      Object.keys(availableLots?.[cp.id]),
+                      Object.values(availableLots?.[cp.id])
                     )
                   : null
               }

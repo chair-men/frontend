@@ -5,7 +5,6 @@ import SpacedColumn from "../../widgets/SpacedColumn";
 import CText from "../../widgets/CText";
 import InputBox from "../../widgets/InputBox";
 import IconButton from "../../widgets/IconButton";
-import Title from "../../widgets/Title";
 import Header from "../../widgets/Header";
 
 const AvailableParkingMainPage = ({ navigation }) => {
