@@ -62,7 +62,7 @@ const ResultPage = ({ route, navigation }) => {
               value: (
                 <Button
                   onPress={() => {
-                    navigation.navigate("Map");
+                    navigation.navigate("LocationViewer");
                   }}
                   styles={{ backgroundColor: CColors.backdrop }}
                 >

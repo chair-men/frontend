@@ -6,12 +6,14 @@ import CText from "../../widgets/CText";
 import InputBox from "../../widgets/InputBox";
 import IconButton from "../../widgets/IconButton";
 import Header from "../../widgets/Header";
+import LocationButton from "../../widgets/LocationButton";
 
 const AvailableParkingMainPage = ({ navigation }) => {
   const [postalCode, onChangePostalCode] = useState("");
   const [ errorMsg, setErrorMsg ] = useState();
 
   const submitPostal = (postal) => {
+    setErrorMsg();
     onChangePostalCode('');
     
     const validPostalMsg = 'Please enter a valid postal code (only 6 digits).';
@@ -25,6 +27,17 @@ const AvailableParkingMainPage = ({ navigation }) => {
     navigation.navigate("AvailableParkingResultPage", {
       postalCode: postalCode,
     });
+  };
+
+  const useCoords = (coords) => {
+    if (!coords) {
+      setErrorMsg('Please check your location settings and try again.');
+      return;
+    }
+
+    navigation.navigate("AvailableParkingResultPage", {
+      coords: coords
+    })
   };
 
   return (
@@ -56,13 +69,9 @@ const AvailableParkingMainPage = ({ navigation }) => {
             enabled={postalCode.length === 6}
             onPress={() => submitPostal(postalCode)}
           />
-          <IconButton
-            label="Use my location"
-            onPress={() => {
-              navigation.navigate("AvailableParkingResultPage", {
-                postalCode: postalCode,
-              });
-            }}
+          <LocationButton 
+            onStart={() => setErrorMsg()}
+            onComplete={(coords) => useCoords(coords)}
           />
         </SpacedColumn>
       </View>

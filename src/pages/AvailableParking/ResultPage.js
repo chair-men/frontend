@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import SpacedColumn from "../../widgets/SpacedColumn";
 import CText from "../../widgets/CText";
 import Header from "../../widgets/Header";
@@ -7,27 +7,76 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import Button from "../../widgets/Button";
 import { testCP } from "../../testdata/test";
 import { useEffect, useState } from "react";
+import TextButton from "../../widgets/TextButton";
+import CColors from "../../constants/CColors";
+import { searchCPCoords, searchCPPostal } from "../../api";
 
 const ResultPage = ({ navigation, route }) => {
-  const { postalCode } = route.params;
+  const { postalCode, coords } = route.params;
+  if (!postalCode && !coords) throw "Need at least postal code or coordinates!";
+
+  const [ searching, setSearching ] = useState(true);
   const [ availableLots, setAvailableLots ] = useState({});
-  const carparks = [testCP];
+  const [ carparks, setCarparks ] = useState([]);
 
   const zip = (a, b) => a.map((k, i) => [k, b[i]]);
 
   useEffect(() => {
-    carparks.forEach((cp) => {
-      var t = {};
-      cp.levels.forEach((lvl) => {
-        t[lvl.id] = lvl.lots.reduce(
-          (accumulator, lot) => accumulator + (lot.is_occupied ? 0 : 1),
-          0
-        );
+    const onSuccess = (newCP) => {
+      newCP.forEach((cp) => {
+        var t = {};
+        cp.levels.forEach((lvl) => {
+          t[lvl.id] = lvl.lots.reduce(
+            (accumulator, lot) => accumulator + (lot.is_occupied ? 0 : 1),
+            0
+          );
+        });
+        setAvailableLots({ ...availableLots, [cp.id]: t });
       });
-      setAvailableLots({ ...availableLots, [cp.id]: t });
-    });
-    // console.log(availableLots);
+
+      setSearching(false);
+      setCarparks(newCP);
+    };
+
+    const onFailure = (e) => {
+      console.log(e);
+      setSearching(false);
+      setCarparks([]);
+    };
+
+    if (postalCode !== undefined) searchCPPostal(postalCode)
+      .then(onSuccess)
+      .catch(onFailure);
+    else if (coords !== undefined) searchCPCoords(coords)
+      .then(onSuccess)
+      .catch(onFailure);
   }, []);
+
+  if (carparks.length < 1) return <View
+    style={{
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: CColors.backdrop
+    }}
+  >
+    {
+      searching 
+        ? <SpacedColumn>
+          <ActivityIndicator size='large' />
+          <CText>Searching for nearby carparks...</CText>
+        </SpacedColumn>
+        : <SpacedColumn
+          alignItems='stretch'
+        >
+          <CText>We couldn't find any carparks for you.</CText>
+          <TextButton
+            label='Go Back'
+            onPress={() => navigation.pop()} 
+          />
+        </SpacedColumn>
+    }
+  </View>;
 
   return (
     <View>

@@ -1,6 +1,7 @@
 import * as Location from "expo-location";
 
 export const getLocation = async () => {
+  await Location.requestForegroundPermissionsAsync();
   let location = await Location.getLastKnownPositionAsync();
   if (location === null) {
     location = await Location.getCurrentPositionAsync();
