@@ -8,8 +8,11 @@ import IconButton from "../../widgets/IconButton";
 import Title from "../../widgets/Title";
 import Header from "../../widgets/Header";
 
+import { getLocation } from "../../../utils/location";
+
 const AvailableParkingMainPage = ({ navigation }) => {
   const [postalCode, onChangePostalCode] = useState("");
+  console.log(getLocation());
 
   return (
     <>

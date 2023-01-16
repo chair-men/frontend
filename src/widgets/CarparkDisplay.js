@@ -11,7 +11,7 @@ const spacing = 5;
 const mainFontSize = 22;
 const subFontSize = 14;
 
-const CarparkDisplay = ({ navigation, nav, coordinates, name, id, warningMessage, info, detailedInfo, }) => {
+const CarparkDisplay = ({ navigation, nav, carpark, name, warningMessage, info, detailedInfo, }) => {
   return (
     <Accordion
       topComponent={
@@ -91,16 +91,15 @@ const CarparkDisplay = ({ navigation, nav, coordinates, name, id, warningMessage
                     margin: 0,
                   }}
                   onPress={() => {
-                    navigation.navigate(nav, { marker: { name: name, coordinates: coordinates, id: id } });
+                    navigation.navigate(nav, { carpark: carpark, startLevel: info[0] });
                   }}
                 >
-                  {info.map((x, i) => {
-                    return (
-                      <CText key={i} styles={{ fontWeight: "bold" }}>
-                        {x}
-                      </CText>
-                    );
-                  })}
+                    <CText styles={{ fontWeight: "bold" }}>
+                      Level {info[0]}
+                    </CText>
+                    <CText styles={{ fontWeight: "bold" }}>
+                      {info[1]} {info[1] > 1 ? " lots" : " lot"}
+                    </CText>
                 </TouchableOpacity>
               ) : (
                 
@@ -113,7 +112,7 @@ const CarparkDisplay = ({ navigation, nav, coordinates, name, id, warningMessage
                   }}
                   textStyle={{ fontWeight: "bold", fontSize: 20 }}
                   onPress={() => {
-                    navigation.navigate(nav, { carpark: name + ' ' + info });
+                    navigation.navigate(nav, { carpark: carpark, startLevel: info[0] });
                   }}
                 />
               )}
