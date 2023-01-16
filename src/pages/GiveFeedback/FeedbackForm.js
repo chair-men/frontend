@@ -66,7 +66,7 @@ const FeedbackForm = ({ route, navigation }) => {
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: CColors.backdrop,
-          marginBottom: 20,
+          marginVertical: 20,
         }}
         onPress={pickImage}
       >
