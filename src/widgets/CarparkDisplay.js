@@ -113,7 +113,7 @@ const CarparkDisplay = ({ navigation, nav, carpark, name, warningMessage, info, 
                   }}
                   textStyle={{ fontWeight: "bold", fontSize: 20 }}
                   onPress={() => {
-                    navigation.navigate(nav, { carpark: carpark, startLevel: info[0] });
+                    navigation.navigate(nav, { carpark: carpark, startLevel: info });
                   }}
                 />
               )}

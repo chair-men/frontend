@@ -63,7 +63,7 @@ const MapPage = ({ navigation, route }) => {
     const { carpark, startLot } = route.params;
     let startLevel = route.params.startLevel;
     
-    if (startLevel === undefined) {
+    if (startLevel !== undefined) {
         if (startLot) {
             startLevel = carpark.levels.find((lvl) => lvl.id === startLot.levelId);
         }
