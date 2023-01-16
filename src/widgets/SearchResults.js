@@ -1,6 +1,6 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, ScrollView, View } from "react-native";
 import { calcDistance } from "../../utils/location";
 import { coordsFromPostal, searchCPCoords, searchCPPostal } from "../api";
 import Carpark from "../dataclasses/Carpark";
@@ -10,22 +10,22 @@ import CText from "./CText";
 import SpacedColumn from "./SpacedColumn";
 import TextButton from "./TextButton";
 
-const CPResult = ({ navigation, carpark, userCoords, effect }) => {
+const CPResult = ({ navigation, carpark, distance, effect }) => {
     const [ remInfo, setRemInfo ] = useState([]);
     const [ detailedInfo, setDetailedInfo ] = useState([]);
-    if (effect) useEffect(() => {
-        effect(carpark, setRemInfo, setDetailedInfo);
-    }, [ carpark ]);
+    const [ warningMessage, setWarningMessage ] = useState();
 
-    const distance = calcDistance(userCoords.lat, userCoords.lng, carpark.coordinates.lat, carpark.coordinates.lng).toFixed(2);
+    if (effect) useEffect(() => {
+        effect(carpark, setRemInfo, setDetailedInfo, setWarningMessage);
+    }, [ carpark ]);
 
     return <CarparkDisplay
         navigation={navigation}
         name={carpark.name}
         carpark={carpark}
-        warningMessage={carpark?.warningMessage}
+        warningMessage={warningMessage}
         info={[
-        { value: distance, subText: "km away" },
+        { value: distance.toFixed(2), subText: "km away" },
         {
             value: (
             <Button
@@ -58,6 +58,9 @@ const SearchResults = ({ navigation, postalCode, coords, effect }) => {
     const [ carparks, setCarparks ] = useState([]);
 
     useEffect(() => {
+        setSearching(true);
+        setCarparks([]);
+
         const onSuccess = ({ data: newCPs }) => {
             setCarparks(newCPs.map((cp, _) => Carpark.fromJSON(cp)));
             setSearching(false);
@@ -70,25 +73,30 @@ const SearchResults = ({ navigation, postalCode, coords, effect }) => {
 
         if (coords === undefined) {
             coordsFromPostal(postalCode)
-                .then((coords) => {
-                    setUserCoords(coords);
+                .then(({ data: coords }) => {
+                    const { lat, lng } = coords;
+                    if (!lat || !lng) {
+                        onFailure('Invalid postal code.');
+                        return;
+                    }
 
+                    setUserCoords(coords);
                     searchCPPostal(postalCode)
                         .then(onSuccess)
-                        .catch((e) => onFailure('Cannot find any carparks. Please try again later.'));
+                        .catch((e) => onFailure('Cannot find any carparks.'));
                 })
-                .catch((e) => onFailure('Postal code failed. Please try again later.'));
+                .catch((e) => onFailure('Invalid postal code.'));
         } else {
             searchCPCoords(coords)
                 .then(onSuccess)
-                .catch((e) => onFailure('Cannot find any carparks. Please try again later.'));
+                .catch((e) => onFailure('Cannot find any carparks.'));
         }
 
     }, [ postalCode, coords ]);
 
     if (carparks.length < 1) return <View
         style={{
-        height: '90%',
+        flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: CColors.backdrop
@@ -104,25 +112,29 @@ const SearchResults = ({ navigation, postalCode, coords, effect }) => {
             alignItems='stretch'
             >
             <CText>{errorMsg ? errorMsg : 'There are currently no carparks.'}</CText>
-            <TextButton
-                label='Go Back'
-                onPress={() => navigation.pop()} 
-            />
             </SpacedColumn>
         }
     </View>;
 
-    return <SpacedColumn alignItems="stretch" width="100%" spacing={20}>
-        {carparks.map((cp, _) => {
-            return <CPResult 
-                navigation={navigation}
-                key={cp.id}
-                carpark={cp}
-                userCoords={userCoords}
-                effect={effect}
-            />;
-        })}    
-    </SpacedColumn>;
+    const getDistance = (cpCoords) => {
+        return calcDistance(userCoords.lat, userCoords.lng, cpCoords.lat, cpCoords.lng);
+    };
+    
+    carparks.sort((a, b) => getDistance(a.coordinates) - getDistance(b.coordinates));
+
+    return <ScrollView style={{ display: 'flex', flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}> 
+        <SpacedColumn alignItems="stretch" width="100%" spacing={20}>
+            {carparks.map((cp, _) => {
+                return <CPResult 
+                    navigation={navigation}
+                    key={cp.id}
+                    carpark={cp}
+                    distance={getDistance(cp.coordinates)}
+                    effect={effect}
+                />;
+            })}    
+        </SpacedColumn>
+    </ScrollView>;
 };
 
 export default SearchResults;

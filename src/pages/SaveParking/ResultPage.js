@@ -4,46 +4,56 @@ import CText from "../../widgets/CText";
 import TextButton from "../../widgets/TextButton";
 import Header from "../../widgets/Header";
 import CarparkDisplay from "../../widgets/CarparkDisplay";
-import { testCP } from "../../testdata/test";
 import Button from "../../widgets/Button";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import { useEffect, useState } from "react";
-import { coordsFromPostal, searchCPPostal, searchCPCoords } from "../../api";
+import { useState } from "react";
+import { getCPOccupied } from "../../api";
 import { calcDistance } from "../../../utils/location";
+import HeaderLayout from "../../widgets/HeaderLayout";
+import SearchResults from "../../widgets/SearchResults";
 
 const ResultPage = ({ navigation, route }) => {
   const { licencePlate, postalCode, coords } = route.params;
-  const [ userCoords, setUserCoords ] = useState(coords);
   const [ carparks, setCarparks ] = useState([]);
-  const [ searching, setSearching ] = useState(true);
 
-  useEffect(() => {
-    const onSuccess = (newCP) => {
-      setSearching(false);
-      setCarparks(newCP);
-    };
+  const effect = (carpark, _, setDetailedInfo, setWarningMessage) => {
+    setDetailedInfo(<ActivityIndicator />);
 
-    const onFailure = (e) => {
-      console.log(e);
-      setSearching(false);
-      setCarparks([]);
-    };
+    getCPOccupied(carpark.id)
+      .then(({ data }) => {
+        const lvlInfo = [];
+        if (data.status) Object.entries(data.status)
+          .forEach(([lvlId, val], i) => {
+            if (val.occupied > 0) lvlInfo.push([ lvlId ]);
+          });
+        
+        if (lvlInfo.length > 0) {
+          setDetailedInfo(lvlInfo);
+        } else {
+          setWarningMessage('there are no vehicles here.');
+          setDetailedInfo();
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        setWarningMessage('unable to determine carpark status.');
+        setDetailedInfo();
+      });
+  };
 
-    if (postalCode !== undefined) {
-      coordsFromPostal(postalCode)
-        .then((coords) => {
-          setUserCoords(coords);
-
-          searchCPPostal(postalCode)
-            .then(onSuccess)
-            .catch(onFailure);
-        })
-        .catch(onFailure);
-    }
-    else if (coords !== undefined) searchCPCoords(coords)
-      .then(onSuccess)
-      .catch(onFailure);
-  }, []);
+  return <HeaderLayout
+    headerComponent={<CText>
+      Showing results for{" "}
+      <CText styles={{ fontWeight: "bold" }}>{postalCode}</CText>
+    </CText>}
+  >
+    <SearchResults 
+        navigation={navigation}
+        postalCode={postalCode}
+        coords={coords}
+        effect={effect}
+      />
+  </HeaderLayout>;
 
   if (carparks.length < 1) return <View
     style={{

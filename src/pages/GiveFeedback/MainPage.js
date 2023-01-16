@@ -9,138 +9,82 @@ import CColors from "../../constants/CColors";
 import Button from "../../widgets/Button";
 import { calcDistance, getLocation } from "../../../utils/location";
 import CText from "../../widgets/CText";
-import { coordsFromPostal } from "../../api";
+import { coordsFromPostal, getCP } from "../../api";
 import TextButton from "../../widgets/TextButton";
+import HeaderLayout from "../../widgets/HeaderLayout";
+import SearchResults from "../../widgets/SearchResults";
 
 const ResultPage = ({ route, navigation }) => {
-  const [postalCode, onChangePostalCode] = useState("");
+  const [ searchingCoords, setSearchingCoords ] = useState(true);
+  const [ postalCodeVal, onChangePostalCodeVal] = useState("");
+  const [ userPostalCode, setUserPostalCode ] = useState("");
   const [ userCoords, setUserCoords ] = useState();
-  const [ searching, setSearching ] = useState(true);
   const [ carparks, setCarparks ] = useState([]);
 
   useEffect(() => {
     getLocation().then((loc) => {
       const { latitude, longitude } = loc.coords;
       setUserCoords({ lat: latitude, lng: longitude });
-      setSearching(false);
+      setSearchingCoords(false);
     }).catch((_) => {
-        setSearching(false);
+        setSearchingCoords(false);
     });
   }, []);
 
-  useEffect(() => {
-    const onSuccess = (newCP) => {
-      setSearching(false);
-      setCarparks(newCP);
-    };
+  const effect = (carpark, _, setDetailedInfo, setWarningMessage) => {
+    getCP(carpark.id)
+      .then(({ data }) => {
+        setDetailedInfo(Object.keys(data.status));
+      })
+      .catch((_) => {
+        setWarningMessage('unable to determine carpark levels.');
+        setDetailedInfo();
+      });
+  };
 
-    const onFailure = (e) => {
-      console.log(e);
-      setSearching(false);
-      setCarparks([]);
-    };
+  if (searchingCoords) return <View
+    style={{
+      flex: 1,
+      backgroundColor: CColors.backdrop,
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}
+  >
+    <SpacedColumn>
+      <ActivityIndicator size='large' />
+      <CText>determining your location...</CText>
+    </SpacedColumn>
+  </View>;
 
-    if (postalCode !== undefined) {
-      coordsFromPostal(postalCode)
-        .then((coords) => {
-          setUserCoords(coords);
-
-          searchCPPostal(postalCode)
-            .then(onSuccess)
-            .catch(onFailure);
-        })
-        .catch(onFailure);
-    }
-  }, [ postalCode ]);
-
-  const body = (carparks.length < 1) 
-    ? <View
-      style={{
-        width: '100%',
-        height: '90%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: CColors.backdrop
-      }}
-    >
-      {
-        searching 
-          ? <SpacedColumn>
-            <ActivityIndicator size='large' />
-            <CText>Searching for nearby carparks...</CText>
-          </SpacedColumn>
-          : <SpacedColumn
-            alignItems='stretch'
-          >
-            <CText>{!userCoords
-              ? "Please search for a carpark."
-              : "We couldn't find any carparks for you."
-            }</CText>
-          </SpacedColumn>
-      }
-    </View>
-
-    : <SpacedColumn alignItems="stretch" width="100%" spacing={20}>
-      {carparks.map((cp) => {
-        const distance = calcDistance(userCoords.lat, userCoords.lng, cp.coordinates.lat, cp.coordinates.lng).toFixed(2);
-
-        return (
-          <CarparkDisplay
-            navigation={navigation}
-            nav={"MapPage"}
-            name={cp.name}
-            carpark={cp}
-            warningMessage={cp?.warningMessage}
-            info={[
-              { value: distance, subText: "km away" },
-              {
-                value: (
-                  <Button
-                    onPress={() => {
-                      navigation.navigate("LocationViewer", {
-                        marker: {
-                          name: cp.name,
-                          coordinates: cp.coordinates,
-                          id: cp.id,
-                        },
-                      });
-                    }}
-                    styles={{ backgroundColor: CColors.backdrop }}
-                  >
-                    <FontAwesome5 name={"map"} size={22} />
-                  </Button>
-                ),
-                subText: "Map",
-              },
-            ]}
-            detailedInfo={
-              cp.levels.map(lvl => lvl.id)
-            }
-          />
-        );
-      })}
-    </SpacedColumn>;
-
-  return (
-    <View>
-      <Header>
-        <FontAwesome5 name={"search"} size={18} />
-        <InputBox
-          value={postalCode}
-          onChange={onChangePostalCode}
-          placeholder={"Find other carparks"}
-          styles={{
-            width: "90%",
-            textAlign: "left",
-            backgroundColor: CColors.header,
-          }}
-          keyboardType="numeric"
-          maxLength={6}
-        />
-      </Header>
-      {body}
-    </View>
-  );
+  return <HeaderLayout
+    headerComponent={<>
+    <FontAwesome5 name={"search"} size={18} />
+      <InputBox
+        value={postalCodeVal}
+        onChange={(postal) => {
+          onChangePostalCodeVal(postal);
+          postal = postal.replace(/\D/g, '');
+          if (postal.length === 6) setUserPostalCode(postal);
+          else setUserPostalCode("");
+        }}
+        placeholder={"Find other carparks"}
+        styles={{
+          width: "90%",
+          textAlign: "left",
+          backgroundColor: CColors.header,
+        }}
+        keyboardType="numeric"
+        maxLength={6}
+      />
+    </>}
+  >
+    <SearchResults
+      navigation={navigation}
+      postalCode={userPostalCode}
+      coords={userPostalCode ? undefined : userCoords}
+      effect={effect}
+    />
+  </HeaderLayout>;
 };
 
 export default ResultPage;

@@ -11,7 +11,7 @@ const spacing = 5;
 const mainFontSize = 22;
 const subFontSize = 14;
 
-const CarparkDisplay = ({ navigation, nav, carpark, name, warningMessage, info, detailedInfo, }) => {
+const CarparkDisplay = ({ navigation, nav, carpark, name, warningMessage, info, detailedInfo }) => {
   return (
     <Accordion
       topComponent={
@@ -29,7 +29,7 @@ const CarparkDisplay = ({ navigation, nav, carpark, name, warningMessage, info, 
             borderTopRightRadius: 20,
           }}
         >
-          <SpacedColumn spacing={spacing}>
+          <SpacedColumn width='47%' spacing={spacing}>
             <CText styles={{ fontSize: mainFontSize, fontWeight: "bold" }}>
               {name}
             </CText>
@@ -119,6 +119,8 @@ const CarparkDisplay = ({ navigation, nav, carpark, name, warningMessage, info, 
             </SpacedColumn>
           ))
           : detailedInfo
+            ? detailedInfo
+            : <CText>No levels available.</CText>
         }
       </View>
     </Accordion>
