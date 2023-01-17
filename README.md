@@ -9,6 +9,12 @@ Introducing “Park Me”, an all-in-one mobile application for public parking f
 5. efficiently provide feedback of a particular parking lot
 6. review past feedback provided for a particular parking lot
 
+The main page features a simple and easy-to-use user interface, allowing the user to quickly access the applications functionalities with just 3 buttons:
+- Available Parking (functions 1 and 2)
+- Parking Helper (functions 3 and 4)
+- Provide Feedback  (functions 5 and 6)
+![D1](assets/showcase-images/d1.png)
+
 ## To-Use
 1. Install yarn using ```npm install --global yarn```
 2. Clone the repository
