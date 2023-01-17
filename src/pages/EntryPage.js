@@ -5,10 +5,8 @@ import Accordion from "../widgets/Accordion";
 import SpacedColumn from "../widgets/SpacedColumn";
 import TextButton from "../widgets/TextButton";
 import IconButton from "../widgets/IconButton";
-import { testCP } from "../testdata/test";
 
 import { HDB_LOGO } from "../images";
-import CText from "../widgets/CText";
 import Title from "../widgets/Title";
 
 const EntryPage = ({ navigation }) => {
