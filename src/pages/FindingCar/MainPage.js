@@ -35,7 +35,7 @@ const MainPage = ({ navigation }) => {
 
           <IconButton
             label="Find your car"
-            enabled={licensePlate.length <= 8}
+            enabled={licensePlate.length > 0 && licensePlate.length <= 8}
             onPress={() => {
               navigation.navigate("FindingCarResultPage", {
                 licensePlate: licensePlate.toLocaleUpperCase(),
