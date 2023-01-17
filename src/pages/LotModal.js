@@ -83,6 +83,7 @@ const LotModal = ({ navigation, route }) => {
           </View>
           {!licensePlate && (
             <Accordion
+              spacing={10}
               topComponent={
                 <CText
                   styles={{
@@ -97,7 +98,7 @@ const LotModal = ({ navigation, route }) => {
               }
             >
               {feedbacks.length > 0 && (
-                <SpacedColumn>
+                <SpacedColumn width='100%' alignItems='stretch'>
                   {feedbacks.map((feedback, i) => {
                     return (
                       <CText
@@ -105,8 +106,7 @@ const LotModal = ({ navigation, route }) => {
                         styles={{
                           backgroundColor: CColors.accordion,
                           borderRadius: 10,
-                          marginTop: 10,
-                          paddingHorizontal: 20,
+                          padding: 20,
                         }}
                       >
                         {`Issue(s): ${feedback.kerb ? "Kerb, " : ""}${
