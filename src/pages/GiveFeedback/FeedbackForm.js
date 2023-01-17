@@ -1,5 +1,5 @@
-import { View, Text, Button, Image, ScrollView } from "react-native";
-import { useEffect, useState } from "react";
+import { View, Image, ScrollView } from "react-native";
+import { useState } from "react";
 import Checkbox from "expo-checkbox";
 import * as ImagePicker from "expo-image-picker";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
@@ -7,10 +7,9 @@ import CText from "../../widgets/CText";
 import Header from "../../widgets/Header";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import CColors from "../../constants/CColors";
-import SpacedRow from "../../widgets/SpacedRow";
 import TextButton from "../../widgets/TextButton";
 import InputBox from "../../widgets/InputBox";
-import { getFeedback, postFeedback } from "../../api";
+import { postFeedback } from "../../api";
 
 const Issue = ({ name, value, onValueChange }) => {
   return (

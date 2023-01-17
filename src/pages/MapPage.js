@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Dimensions, Image, PixelRatio, Text, View } from "react-native";
+import { ActivityIndicator, Dimensions, Image, Text, View } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { getCP, getCPLevel } from "../api";
 import CColors from "../constants/CColors";
