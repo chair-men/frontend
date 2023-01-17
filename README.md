@@ -1,6 +1,6 @@
 # Frontend for Park-Me
 
-## About
+## Overview
 Introducing “Park Me”, an all-in-one mobile application for public parking for motorists in Singapore. The parking spaces featured are managed by HDB, and will include common spaces such as open-air car parks near HDB estates, and multi-storey car parks (MSCPs). With the application, users will be able to:
 1. quickly find available parking lots nearby (based on user location), within seconds
 2. quickly find available parking lots near a specified postal code, within seconds
